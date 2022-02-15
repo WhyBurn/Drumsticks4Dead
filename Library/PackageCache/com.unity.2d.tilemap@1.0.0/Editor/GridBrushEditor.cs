@@ -1,8 +1,10 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor.SceneManagement;
 using UnityEngine.Scripting.APIUpdating;
+using Object = UnityEngine.Object;
 
 namespace UnityEditor.Tilemaps
 {
@@ -19,6 +21,42 @@ namespace UnityEditor.Tilemaps
             public static readonly GUIContent colliderTypeLabel = EditorGUIUtility.TrTextContent("Collider Type", "Collider shape used for tile");
             public static readonly GUIContent lockColorLabel = EditorGUIUtility.TrTextContent("Lock Color", "Prevents tilemap from changing color of tile");
             public static readonly GUIContent lockTransformLabel = EditorGUIUtility.TrTextContent("Lock Transform", "Prevents tilemap from changing transform of tile");
+            public static readonly GUIContent gridSelectionPropertiesLabel = EditorGUIUtility.TrTextContent("Grid Selection Properties");
+            public static readonly GUIContent modifyTilemapLabel = EditorGUIUtility.TrTextContent("Modify Tilemap");
+            public static readonly GUIContent modifyLabel = EditorGUIUtility.TrTextContent("Modify");
+            public static readonly GUIContent deleteSelectionLabel = EditorGUIUtility.TrTextContent("Delete Selection");
+
+            public static readonly GUIContent noTool =
+                EditorGUIUtility.TrTextContentWithIcon("None", "No Gizmo in the Scene view", "RectTool");
+            public static readonly GUIContent moveTool =
+                EditorGUIUtility.TrTextContentWithIcon("Move", "Shows a Gizmo in the Scene view for changing the offset for the Grid Selection", "MoveTool");
+            public static readonly GUIContent rotateTool =
+                EditorGUIUtility.TrTextContentWithIcon("Rotate", "Shows a Gizmo in the Scene view for changing the rotation for the Grid Selection", "RotateTool");
+            public static readonly GUIContent scaleTool =
+                EditorGUIUtility.TrTextContentWithIcon("Scale", "Shows a Gizmo in the Scene view for changing the scale for the Grid Selection", "ScaleTool");
+            public static readonly GUIContent transformTool =
+                EditorGUIUtility.TrTextContentWithIcon("Transform", "Shows a Gizmo in the Scene view for changing the transform for the Grid Selection", "TransformTool");
+
+            public static readonly GUIContent[] selectionTools = new[]
+            {
+                noTool
+                , moveTool
+                , rotateTool
+                , scaleTool
+                , transformTool
+            };
+        }
+
+        public enum ModifyCells
+        {
+            InsertRow,
+            InsertColumn,
+            InsertRowBefore,
+            InsertColumnBefore,
+            DeleteRow,
+            DeleteColumn,
+            DeleteRowBefore,
+            DeleteColumnBefore,
         }
 
         private class GridBrushProperties
@@ -44,6 +82,14 @@ namespace UnityEditor.Tilemaps
         private TileFlags[] m_SelectionFlagsArray;
         private Sprite[] m_SelectionSprites;
         private Tile.ColliderType[] m_SelectionColliderTypes;
+        private int selectionCellCount => GridSelection.position.size.x * GridSelection.position.size.y * GridSelection.position.size.z;
+
+        // These are used to handle transform manipulation on the Tilemap
+        private int m_SelectedTransformTool = 0;
+
+        // These are used to handle insert/delete cells on the Tilemap
+        private int m_CellCount = 1;
+        private ModifyCells m_ModifyCells = ModifyCells.InsertRow;
 
         protected virtual void OnEnable()
         {
@@ -111,12 +157,40 @@ namespace UnityEditor.Tilemaps
             {
                 if (refreshPreviews)
                 {
-                    ClearPreview();
+                    if (CheckFloodFillPreview(gridLayout, brushTarget, position.min))
+                        ClearPreview();
                     FloodFillPreview(gridLayout, brushTarget, position.min);
                 }
             }
 
             base.OnPaintSceneGUI(gridLayout, brushTarget, gizmoRect, tool, executing);
+        }
+
+        private void UpdateSelection(Tilemap tilemap)
+        {
+            var selection = GridSelection.position;
+            var cellCount = selectionCellCount;
+            if (m_SelectionTiles == null || m_SelectionTiles.Length != selectionCellCount)
+            {
+                m_SelectionTiles = new TileBase[cellCount];
+                m_SelectionColors = new Color[cellCount];
+                m_SelectionMatrices = new Matrix4x4[cellCount];
+                m_SelectionFlagsArray = new TileFlags[cellCount];
+                m_SelectionSprites = new Sprite[cellCount];
+                m_SelectionColliderTypes = new Tile.ColliderType[cellCount];
+            }
+
+            int index = 0;
+            foreach (var p in selection.allPositionsWithin)
+            {
+                m_SelectionTiles[index] = tilemap.GetTile(p);
+                m_SelectionColors[index] = tilemap.GetColor(p);
+                m_SelectionMatrices[index] = tilemap.GetTransformMatrix(p);
+                m_SelectionFlagsArray[index] = tilemap.GetTileFlags(p);
+                m_SelectionSprites[index] = tilemap.GetSprite(p);
+                m_SelectionColliderTypes[index] = tilemap.GetColliderType(p);
+                index++;
+            }
         }
 
         /// <summary>Callback for drawing the Inspector GUI when there is an active GridSelection made in a Tilemap.</summary>
@@ -129,29 +203,21 @@ namespace UnityEditor.Tilemaps
             if (tilemap != null && cellCount > 0)
             {
                 base.OnSelectionInspectorGUI();
+
+                if (!EditorGUIUtility.editingTextField
+                    && Event.current.type == EventType.KeyDown
+                    && (Event.current.keyCode == KeyCode.Delete
+                        || Event.current.keyCode == KeyCode.Backspace))
+                {
+                    DeleteSelection(tilemap, selection);
+                    Event.current.Use();
+                }
+
                 GUILayout.Space(10f);
 
-                if (m_SelectionTiles == null || m_SelectionTiles.Length != cellCount)
-                {
-                    m_SelectionTiles = new TileBase[cellCount];
-                    m_SelectionColors = new Color[cellCount];
-                    m_SelectionMatrices = new Matrix4x4[cellCount];
-                    m_SelectionFlagsArray = new TileFlags[cellCount];
-                    m_SelectionSprites = new Sprite[cellCount];
-                    m_SelectionColliderTypes = new Tile.ColliderType[cellCount];
-                }
+                EditorGUILayout.LabelField(Styles.gridSelectionPropertiesLabel, EditorStyles.boldLabel);
 
-                int index = 0;
-                foreach (var p in selection.allPositionsWithin)
-                {
-                    m_SelectionTiles[index] = tilemap.GetTile(p);
-                    m_SelectionColors[index] = tilemap.GetColor(p);
-                    m_SelectionMatrices[index] = tilemap.GetTransformMatrix(p);
-                    m_SelectionFlagsArray[index] = tilemap.GetTileFlags(p);
-                    m_SelectionSprites[index] = tilemap.GetSprite(p);
-                    m_SelectionColliderTypes[index] = tilemap.GetColliderType(p);
-                    index++;
-                }
+                UpdateSelection(tilemap);
 
                 EditorGUI.BeginChangeCheck();
                 EditorGUI.showMixedValue = m_SelectionTiles.Any(tile => tile != m_SelectionTiles.First());
@@ -213,7 +279,152 @@ namespace UnityEditor.Tilemaps
                 }
 
                 EditorGUI.showMixedValue = false;
+
+                if (GUILayout.Button(Styles.deleteSelectionLabel))
+                {
+                    DeleteSelection(tilemap, selection);
+                }
+
+                EditorGUILayout.Space();
+                EditorGUILayout.LabelField(Styles.modifyTilemapLabel, EditorStyles.boldLabel);
+                EditorGUILayout.Space();
+
+                EditorGUI.BeginChangeCheck();
+                m_SelectedTransformTool = GUILayout.Toolbar(m_SelectedTransformTool, Styles.selectionTools);
+                if (EditorGUI.EndChangeCheck())
+                    SceneView.RepaintAll();
+                EditorGUILayout.Space();
+
+                GUILayout.BeginHorizontal();
+                m_ModifyCells = (ModifyCells)EditorGUILayout.EnumPopup(m_ModifyCells);
+                m_CellCount = EditorGUILayout.IntField(m_CellCount);
+                if (GUILayout.Button(Styles.modifyLabel))
+                {
+                    RegisterUndoForTilemap(tilemap, Enum.GetName(typeof(ModifyCells), m_ModifyCells));
+                    switch (m_ModifyCells)
+                    {
+                        case ModifyCells.InsertRow:
+                        {
+                            tilemap.InsertCells(GridSelection.position.position, 0, m_CellCount, 0);
+                            break;
+                        }
+                        case ModifyCells.InsertRowBefore:
+                        {
+                            tilemap.InsertCells(GridSelection.position.position, 0, -m_CellCount, 0);
+                            break;
+                        }
+                        case ModifyCells.InsertColumn:
+                        {
+                            tilemap.InsertCells(GridSelection.position.position, m_CellCount, 0, 0);
+                            break;
+                        }
+                        case ModifyCells.InsertColumnBefore:
+                        {
+                            tilemap.InsertCells(GridSelection.position.position, -m_CellCount, 0, 0);
+                            break;
+                        }
+                        case ModifyCells.DeleteRow:
+                        {
+                            tilemap.DeleteCells(GridSelection.position.position, 0, m_CellCount, 0);
+                            break;
+                        }
+                        case ModifyCells.DeleteRowBefore:
+                        {
+                            tilemap.DeleteCells(GridSelection.position.position,  0, -m_CellCount, 0);
+                            break;
+                        }
+                        case ModifyCells.DeleteColumn:
+                        {
+                            tilemap.DeleteCells(GridSelection.position.position, m_CellCount, 0, 0);
+                            break;
+                        }
+                        case ModifyCells.DeleteColumnBefore:
+                        {
+                            tilemap.DeleteCells(GridSelection.position.position, -m_CellCount, 0, 0);
+                            break;
+                        }
+                    }
+                }
+                GUILayout.EndHorizontal();
             }
+        }
+
+        /// <summary>Callback for painting custom gizmos when there is an active GridSelection made in a GridLayout.</summary>
+        /// <param name="gridLayout">Grid that the brush is being used on.</param>
+        /// <param name="brushTarget">Target of the GridBrushBase::ref::Tool operation. By default the currently selected GameObject.</param>
+        /// <remarks>Override this to show custom gizmos for the current selection.</remarks>
+        public override void OnSelectionSceneGUI(GridLayout gridLayout, GameObject brushTarget)
+        {
+            var tilemap = brushTarget.GetComponent<Tilemap>();
+            if (tilemap == null)
+                return;
+
+            UpdateSelection(tilemap);
+            bool transformFlagsAllEqual = m_SelectionFlagsArray.All(flags => (flags & TileFlags.LockTransform) == (m_SelectionFlagsArray.First() & TileFlags.LockTransform));
+            if (!transformFlagsAllEqual || (m_SelectionFlagsArray[0] & TileFlags.LockTransform) != 0)
+                return;
+
+            var transformMatrix = m_SelectionMatrices[0];
+            var p = (Vector3)transformMatrix.GetColumn(3);
+            var r = transformMatrix.rotation;
+            var s = transformMatrix.lossyScale;
+            Vector3 selectionPosition = GridSelection.position.position;
+            if (selectionCellCount > 1)
+            {
+                selectionPosition.x = GridSelection.position.center.x;
+                selectionPosition.y = GridSelection.position.center.y;
+            }
+            selectionPosition += tilemap.tileAnchor;
+            var gizmoPosition = tilemap.LocalToWorld(tilemap.CellToLocalInterpolated(selectionPosition + p));
+
+            EditorGUI.BeginChangeCheck();
+            switch (m_SelectedTransformTool)
+            {
+                case 0:
+                    break;
+                case 1:
+                {
+                    gizmoPosition = Handles.PositionHandle(gizmoPosition, r);
+                }
+                break;
+                case 2:
+                {
+                    r = Handles.RotationHandle(r, gizmoPosition);
+                }
+                break;
+                case 3:
+                {
+                    s = Handles.ScaleHandle(s, gizmoPosition, r, HandleUtility.GetHandleSize(gizmoPosition));
+                }
+                break;
+                case 4:
+                {
+                    Handles.TransformHandle(ref gizmoPosition, ref r, ref s);
+                }
+                break;
+                default:
+                    break;
+            }
+            if (EditorGUI.EndChangeCheck())
+            {
+                RegisterUndo(brushTarget, GridBrushBase.Tool.Select);
+                var offset = tilemap.WorldToLocal(tilemap.LocalToCellInterpolated(gizmoPosition)) - selectionPosition;
+                foreach (var position in GridSelection.position.allPositionsWithin)
+                {
+                    if (tilemap.HasTile(position))
+                        tilemap.SetTransformMatrix(position, Matrix4x4.TRS(offset, r, s));
+                }
+                InspectorWindow.RefreshInspectors();
+            }
+        }
+
+        private void DeleteSelection(Tilemap tilemap, BoundsInt selection)
+        {
+            if (tilemap == null)
+                return;
+
+            RegisterUndo(tilemap.gameObject, GridBrushBase.Tool.Erase);
+            brush.BoxErase(tilemap.layoutGrid, tilemap.gameObject, selection);
         }
 
         /// <summary> Callback when the mouse cursor leaves and editing area. </summary>
@@ -246,7 +457,11 @@ namespace UnityEditor.Tilemaps
         {
             if (brushTarget != null)
             {
-                Undo.RegisterCompleteObjectUndo(new Object[] { brushTarget, brushTarget.GetComponent<Tilemap>() }, tool.ToString());
+                var tilemap = brushTarget.GetComponent<Tilemap>();
+                if (tilemap != null)
+                {
+                    RegisterUndoForTilemap(tilemap, tool.ToString());
+                }
             }
         }
 
@@ -320,6 +535,24 @@ namespace UnityEditor.Tilemaps
             m_LastBounds = position;
             m_LastBrushTarget = brushTarget;
             m_LastTool = GridBrushBase.Tool.Box;
+        }
+
+        private bool CheckFloodFillPreview(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
+        {
+            if (m_LastGrid == gridLayout
+                && m_LastBrushTarget == brushTarget
+                && m_LastBounds.HasValue && m_LastBounds.Value.Contains(position)
+                && brushTarget != null && brush.cellCount > 0)
+            {
+                Tilemap map = brushTarget.GetComponent<Tilemap>();
+                if (map != null)
+                {
+                    GridBrush.BrushCell cell = brush.cells[0];
+                    if (cell.tile == map.GetEditorPreviewTile(position))
+                        return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>Does a preview of what happens when a GridBrush.FloodFill is done with the same parameters.</summary>
@@ -420,6 +653,11 @@ namespace UnityEditor.Tilemaps
             m_LastGrid = null;
             m_LastBounds = null;
             m_LastTool = null;
+        }
+
+        private void RegisterUndoForTilemap(Tilemap tilemap, string undoMessage)
+        {
+            Undo.RegisterCompleteObjectUndo(new Object[] { tilemap, tilemap.gameObject }, undoMessage);
         }
 
         private static void SetTilemapPreviewCell(Tilemap map, Vector3Int location, TileBase tile, Matrix4x4 transformMatrix, Color color)

@@ -22,6 +22,7 @@ namespace UnityEditor.U2D.Sprites
         private bool[] m_AlphaPixelCache;
         SpriteFrameModuleContext m_SpriteFrameModuleContext;
 
+        private const float kOverlapTolerance = 0.00001f;
         private StringBuilder m_SpriteNameStringBuilder;
 
         public SpriteFrameModule(ISpriteEditor sw, IEventSystem es, IUndoSystem us, IAssetDatabase ad) :
@@ -147,43 +148,77 @@ namespace UnityEditor.U2D.Sprites
             return containedRects;
         }
 
-        private void AddSprite(Rect frame, int alignment, Vector2 pivot, AutoSlicingMethod slicingMethod, ref int index)
+        private void AddSprite(Rect frame, int alignment, Vector2 pivot, AutoSlicingMethod slicingMethod, int originalCount, ref int index)
         {
-            if (slicingMethod != AutoSlicingMethod.DeleteAll)
+            switch (slicingMethod)
             {
-                // Smart: Whenever we overlap, we just modify the existing rect and keep its other properties
-                // Safe: We only add new rect if it doesn't overlap existing one
-
-                SpriteRect existingSprite = GetExistingOverlappingSprite(frame);
-                if (existingSprite != null)
+                case AutoSlicingMethod.DeleteAll:
                 {
-                    if (slicingMethod == AutoSlicingMethod.Smart)
+                    while (AddSprite(frame, alignment, pivot, GenerateSpriteNameWithIndex(index++), Vector4.zero, false) == -1)
+                    {}
+                }
+                break;
+                case AutoSlicingMethod.Smart:
+                {
+                    SpriteRect existingSprite = GetExistingOverlappingSprite(frame, originalCount, true);
+                    if (existingSprite != null)
                     {
                         existingSprite.rect = frame;
                         existingSprite.alignment = (SpriteAlignment)alignment;
                         existingSprite.pivot = pivot;
                     }
+                    else
+                        while (AddSprite(frame, alignment, pivot, GenerateSpriteNameWithIndex(index++), Vector4.zero) == -1) {}
                 }
-                else
+                break;
+                case AutoSlicingMethod.Safe:
                 {
-                    while (AddSprite(frame, alignment, pivot, GenerateSpriteNameWithIndex(index++), Vector4.zero) == -1)
-                    {}
+                    if (GetExistingOverlappingSprite(frame, originalCount) == null)
+                        while (AddSprite(frame, alignment, pivot, GenerateSpriteNameWithIndex(index++), Vector4.zero) == -1) {}
                 }
-            }
-            else
-            {
-                while (AddSprite(frame, alignment, pivot, GenerateSpriteNameWithIndex(index++), Vector4.zero) == -1) {}
+                break;
             }
         }
 
-        private SpriteRect GetExistingOverlappingSprite(Rect rect)
+        private SpriteRect GetExistingOverlappingSprite(Rect rect, int originalCount, bool bestFit = false)
         {
-            for (int i = 0; i < m_RectsCache.spriteRects.Count; i++)
+            var count = Math.Min(originalCount, m_RectsCache.spriteRects.Count);
+            int bestRect = -1;
+            float rectArea = rect.width * rect.height;
+            if (rectArea < kOverlapTolerance)
+                return null;
+
+            float bestRatio = float.MaxValue;
+            float bestArea = float.MaxValue;
+            for (int i = 0; i < count; i++)
             {
                 Rect existingRect = m_RectsCache.spriteRects[i].rect;
                 if (existingRect.Overlaps(rect))
-                    return m_RectsCache.spriteRects[i];
+                {
+                    if (bestFit)
+                    {
+                        float dx = Math.Min(rect.xMax, existingRect.xMax) - Math.Max(rect.xMin, existingRect.xMin);
+                        float dy = Math.Min(rect.yMax, existingRect.yMax) - Math.Max(rect.yMin, existingRect.yMin);
+                        float overlapArea = dx * dy;
+                        float overlapRatio = Math.Abs((overlapArea / rectArea) - 1.0f);
+                        float existingArea = existingRect.width * existingRect.height;
+                        if (overlapRatio < bestRatio || (overlapRatio < kOverlapTolerance && existingArea < bestArea))
+                        {
+                            bestRatio = overlapRatio;
+                            if (overlapRatio < kOverlapTolerance)
+                                bestArea = existingArea;
+                            bestRect = i;
+                        }
+                    }
+                    else
+                    {
+                        bestRect = i;
+                        break;
+                    }
+                }
             }
+            if (bestRect >= 0)
+                return m_RectsCache.spriteRects[bestRect];
             return null;
         }
 
@@ -258,9 +293,10 @@ namespace UnityEditor.U2D.Sprites
             List<Rect> frames = new List<Rect>(InternalSpriteUtility.GenerateAutomaticSpriteRectangles((UnityTexture2D)textureToUse, minimumSpriteSize, 0));
             frames = SortRects(frames);
             int index = 0;
+            int originalCount = m_RectsCache.spriteRects.Count;
 
             foreach (Rect frame in frames)
-                AddSprite(frame, alignment, pivot, slicingMethod, ref index);
+                AddSprite(frame, alignment, pivot, slicingMethod, originalCount, ref index);
 
             selected = null;
             spriteEditor.SetDataModified();
@@ -284,13 +320,14 @@ namespace UnityEditor.U2D.Sprites
             var textureToUse = GetTextureToSlice();
             Rect[] frames = InternalSpriteUtility.GenerateGridSpriteRectangles((UnityTexture2D)textureToUse, offset, size, padding, keepEmptyRects);
 
-            int index = 0;
             undoSystem.RegisterCompleteObjectUndo(m_RectsCache, "Grid Slicing");
             if (slicingMethod == AutoSlicingMethod.DeleteAll)
                 m_RectsCache.Clear();
 
+            int index = 0;
+            int originalCount = m_RectsCache.spriteRects.Count;
             foreach (Rect frame in frames)
-                AddSprite(frame, alignment, pivot, slicingMethod, ref index);
+                AddSprite(frame, alignment, pivot, slicingMethod, originalCount, ref index);
 
             selected = null;
             spriteEditor.SetDataModified();

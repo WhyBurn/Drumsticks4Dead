@@ -12,11 +12,26 @@ namespace UnityEditor.Tilemaps
             public static readonly GUIContent gridSelectionLabel = EditorGUIUtility.TrTextContent("Grid Selection");
         }
 
+        private void OnEnable()
+        {
+            // Give focus to Inspector window for keyboard actions
+            EditorWindow.FocusWindowIfItsOpen<InspectorWindow>();
+        }
+
         public override void OnInspectorGUI()
         {
+            EditorGUI.BeginChangeCheck();
             if (GridPaintingState.activeBrushEditor && GridSelection.active)
             {
                 GridPaintingState.activeBrushEditor.OnSelectionInspectorGUI();
+            }
+            if (EditorGUI.EndChangeCheck())
+            {
+                if (GridPaintingState.IsPartOfActivePalette(GridSelection.target))
+                {
+                    GridPaintingState.UnlockGridPaintPaletteClipboardForEditing();
+                    GridPaintingState.RepaintGridPaintPaletteWindow();
+                }
             }
         }
 
@@ -51,6 +66,7 @@ namespace UnityEditor.Tilemaps
 
                 bounds = new Bounds((max + min) * .5f, max - min);
             }
+
             return bounds;
         }
     }

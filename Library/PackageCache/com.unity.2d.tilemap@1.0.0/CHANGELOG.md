@@ -3,6 +3,13 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [1.0.0] - 2019-09-18
+### Added
+- Allow child GameObjects in the Palette Asset to be shown in the Tile Palette
+- Add toggle to allow rendering of Gizmos in the Tile Palette
+- Add OnSceneGUI API to GridBrushEditorBase for GUI calls for the active Brush (OnPaintSceneGUI is called only when the appropriate EditorTool is active)
+- Add GridPaletteUtility to create Palette Assets through scripting
+
 ## [1.0.0] - 2019-06-06
 ### Added
 - Rename package to 2D Tilemap Editor

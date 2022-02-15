@@ -7,11 +7,6 @@ namespace UnityEditor.Tilemaps
 {
     internal class GridPaintPaletteWindowPreferences
     {
-        // Used by SettingsProvider to pick up Search Keywords in preferences filter
-        public static readonly GUIContent targetEditModeDialogLabel = GridPaintPaletteWindow.TilePaletteProperties.targetEditModeDialogLabel;
-        public static readonly GUIContent targetSortingModeLabel = GridPaintActiveTargetsPreferences.targetSortingModeLabel;
-        public static readonly GUIContent keepEditModeActiveTargetLabel = GridPaintActiveTargetsPreferences.targetRestoreEditModeSelectionLabel;
-
         [SettingsProvider]
         internal static SettingsProvider CreateSettingsProvider()
         {
@@ -21,6 +16,8 @@ namespace UnityEditor.Tilemaps
                 {
                     GridPaintPaletteWindow.PreferencesGUI();
                     GridPaintActiveTargetsPreferences.PreferencesGUI();
+                    SceneViewOpenTilePaletteHelper.PreferencesGUI();
+                    TilemapPrefabStageHelper.PreferencesGUI();
                 }
             };
             return settingsProvider;
@@ -30,12 +27,11 @@ namespace UnityEditor.Tilemaps
     internal class GridPaintActiveTargetsPreferences
     {
         public static readonly string targetSortingModeEditorPref = "TilePalette.ActiveTargetsSortingMode";
-        public static readonly string targetSortingModeLookup = "Tile Palette Active Targets Sorting Mode";
+        public static readonly string targetSortingModeLookup = "Active Targets Sorting Mode";
         public static readonly string targetRestoreEditModeSelectionEditorPref = "TilePalette.RestoreEditModeSelection";
-        public static readonly string targetRestoreEditModeSelectionLookup =
-            "Tile Palette Restore Edit Mode Active Target";
+        public static readonly string targetRestoreEditModeSelectionLookup = "Restore Edit Mode Active Target";
         public static readonly string createTileFromPaletteEditorPref = "TilePalette.CreateTileFromPalette";
-        public static readonly string createTileFromPaletteLookup = "Tile Palette Create Tile Method";
+        public static readonly string createTileFromPaletteLookup = "Create Tile Method";
 
         public static readonly string defaultSortingMode = L10n.Tr("None");
 

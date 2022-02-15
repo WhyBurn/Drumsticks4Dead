@@ -79,13 +79,64 @@ namespace UnityEditor.U2D.Sprites
 
         protected ITexture2D m_Texture;
         protected ITexture2D m_TextureAlphaOverride;
-        protected Rect m_TextureViewRect;
+        Rect m_TextureViewRect;
         protected Rect m_TextureRect;
 
+        [SerializeField]
         protected bool m_ShowAlpha = false;
-        protected float m_Zoom = -1f;
+        [SerializeField]
         protected float m_MipLevel = 0;
+        [SerializeField]
+        protected float m_Zoom = -1f;
+        [SerializeField]
         protected Vector2 m_ScrollPosition = new Vector2();
+
+        public float zoomLevel
+        {
+            get { return m_Zoom; }
+            set { m_Zoom = Mathf.Clamp(value, GetMinZoom(), k_MaxZoom); }
+        }
+
+        internal Rect textureViewRect
+        {
+            get => m_TextureViewRect;
+            set
+            {
+                m_TextureViewRect = value;
+                zoomLevel = m_Zoom; // update zoom level
+            }
+        }
+
+        public Vector2 scrollPosition
+        {
+            get { return m_ScrollPosition; }
+            set
+            {
+                if (m_Zoom < 0)
+                    m_Zoom = GetMinZoom();
+
+                m_ScrollPosition.x = Mathf.Clamp(value.x, maxScrollRect.xMin, maxScrollRect.xMax);
+                m_ScrollPosition.y = Mathf.Clamp(value.y, maxScrollRect.yMin, maxScrollRect.yMax);
+            }
+        }
+
+        public bool showAlpha
+        {
+            get { return m_ShowAlpha; }
+            set { m_ShowAlpha = value; }
+        }
+
+        public float mipLevel
+        {
+            get { return m_MipLevel; }
+            set
+            {
+                var mipCount = 1;
+                if (m_Texture != null)
+                    mipCount = Mathf.Max(mipCount, TextureUtil.GetMipmapCount(m_Texture));
+                m_MipLevel = Mathf.Clamp(value, 0, mipCount - 1);
+            }
+        }
 
         protected float GetMinZoom()
         {
@@ -252,7 +303,7 @@ namespace UnityEditor.U2D.Sprites
             // Offset from top left to center in view space
             Vector3 handlesPos = new Vector3(m_TextureRect.x, m_TextureRect.yMax, 0f);
             // We flip Y-scale because Unity texture space is bottom-up
-            Vector3 handlesScale = new Vector3(m_Zoom, -m_Zoom, 1f);
+            Vector3 handlesScale = new Vector3(zoomLevel, -zoomLevel, 1f);
 
             // Handle matrix is for converting between view and texture space coordinates, without taking account the scroll position.
             // Scroll position is added separately so we can use it with GUIClip.
@@ -283,7 +334,7 @@ namespace UnityEditor.U2D.Sprites
 
             drawArea.width = EditorGUI.kSliderMinW;
             drawArea.x -= drawArea.width;
-            m_Zoom = GUI.HorizontalSlider(drawArea, m_Zoom, GetMinZoom(), k_MaxZoom, m_Styles.preSlider, m_Styles.preSliderThumb);
+            zoomLevel = GUI.HorizontalSlider(drawArea, zoomLevel, GetMinZoom(), k_MaxZoom, m_Styles.preSlider, m_Styles.preSliderThumb);
 
             drawArea.width = EditorGUI.kObjectFieldMiniThumbnailWidth;
             drawArea.x -= drawArea.width + EditorGUI.kSpacing;

@@ -117,18 +117,18 @@ namespace UnityEditor.Tilemaps
         /// </param>
         public static void ToggleActiveEditorTool(Type type)
         {
-            if (EditorTools.EditorTools.activeToolType != type)
+            if (ToolManager.activeToolType != type)
             {
                 SetActiveEditorTool(type);
             }
             else
             {
                 // Switch out of TilemapEditorTool if possible
-                var lastTool = EditorToolContext.GetLastTool(x => !(x is TilemapEditorTool));
+                var lastTool = EditorToolManager.GetLastTool(x => !(x is TilemapEditorTool));
                 if (lastTool != null)
-                    EditorTools.EditorTools.SetActiveTool(lastTool);
+                    ToolManager.SetActiveTool(lastTool);
                 else
-                    EditorTools.EditorTools.SetActiveTool(typeof(ViewModeTool));
+                    ToolManager.SetActiveTool(typeof(ViewModeTool));
             }
         }
 
@@ -154,13 +154,13 @@ namespace UnityEditor.Tilemaps
 
             if (selectedTool != null)
             {
-                EditorTools.EditorTools.SetActiveTool(selectedTool);
+                ToolManager.SetActiveTool(selectedTool);
             }
         }
 
         internal static bool IsActive(Type toolType)
         {
-            return EditorTools.EditorTools.activeToolType != null && EditorTools.EditorTools.activeToolType == toolType;
+            return ToolManager.activeToolType != null && ToolManager.activeToolType == toolType;
         }
 
         private static bool IsCachedEditorToolsInvalid()

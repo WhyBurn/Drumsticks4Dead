@@ -229,6 +229,21 @@ namespace UnityEditor.Tilemaps
         }
 
         /// <summary>
+        /// Checks if target GameObject is part of the active Palette.
+        /// </summary>
+        /// <param name="target">GameObject to check.</param>
+        /// <returns>True if the target GameObject is part of the active palette. False if not.</returns>
+        public static bool IsPartOfActivePalette(GameObject target)
+        {
+            if (GridPaintPaletteWindow.instances.Count > 0 && target == GridPaintPaletteWindow.instances[0].paletteInstance)
+                return true;
+            if (target == palette)
+                return true;
+            var parent = target.transform.parent;
+            return parent != null && IsPartOfActivePalette(parent.gameObject);
+        }
+
+        /// <summary>
         /// Returns all available Palette GameObjects for the Tile Palette
         /// </summary>
         public static IList<GameObject> palettes
@@ -236,6 +251,9 @@ namespace UnityEditor.Tilemaps
             get { return GridPalettes.palettes; }
         }
 
+        /// <summary>
+        /// The currently active editor for the active brush for the Tile Palette
+        /// </summary>
         public static GridBrushEditorBase activeBrushEditor
         {
             get
@@ -312,10 +330,22 @@ namespace UnityEditor.Tilemaps
                 paletteChanged(palette);
         }
 
+        internal static void UpdateActiveGridPalette()
+        {
+            if (GridPaintPaletteWindow.instances.Count > 0)
+                GridPaintPaletteWindow.instances[0].DelayedResetPreviewInstance();
+        }
+
         internal static void RepaintGridPaintPaletteWindow()
         {
             if (GridPaintPaletteWindow.instances.Count > 0)
                 GridPaintPaletteWindow.instances[0].Repaint();
+        }
+
+        internal static void UnlockGridPaintPaletteClipboardForEditing()
+        {
+            if (GridPaintPaletteWindow.instances.Count > 0)
+                GridPaintPaletteWindow.instances[0].clipboardView.UnlockAndEdit();
         }
 
         internal static void RegisterPainterInterest(Object painter)

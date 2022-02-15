@@ -80,18 +80,17 @@ namespace UnityEditor.Tilemaps
                     currentPosition += new Vector2Int(0, min.y - 1);
                 }
             }
-
             if (currentPosition.x > 0)
                 currentPosition = new Vector2Int(0, currentPosition.y - 1);
 
             if (singleSprites != null)
             {
-                width = Mathf.FloorToInt(Mathf.Sqrt(singleSprites.Count));
+                width = Mathf.RoundToInt(Mathf.Sqrt(singleSprites.Count));
                 foreach (Sprite sprite in singleSprites)
                 {
                     result.Add(currentPosition, sprite);
                     currentPosition += new Vector2Int(1, 0);
-                    if (currentPosition.x > width)
+                    if (currentPosition.x >= width)
                         currentPosition = new Vector2Int(0, currentPosition.y - 1);
                 }
             }
@@ -100,12 +99,12 @@ namespace UnityEditor.Tilemaps
 
             if (tiles != null)
             {
-                width = Math.Max(Mathf.FloorToInt(Mathf.Sqrt(tiles.Count)), width);
+                width = Math.Max(Mathf.RoundToInt(Mathf.Sqrt(tiles.Count)), width);
                 foreach (TileBase tile in tiles)
                 {
                     result.Add(currentPosition, tile);
                     currentPosition += new Vector2Int(1, 0);
-                    if (currentPosition.x > width)
+                    if (currentPosition.x >= width)
                         currentPosition = new Vector2Int(0, currentPosition.y - 1);
                 }
             }
@@ -168,56 +167,63 @@ namespace UnityEditor.Tilemaps
             return result;
         }
 
+        private static Vector2Int GetMinimum(List<Sprite> sprites, Func<Sprite, float> minX, Func<Sprite, float> minY)
+        {
+            Vector2 minVector = new Vector2(Int32.MaxValue, Int32.MaxValue);
+            foreach (var sprite in sprites)
+            {
+                minVector.x = Mathf.Min(minVector.x, minX(sprite));
+                minVector.y = Mathf.Min(minVector.y, minY(sprite));
+            }
+            return Vector2Int.FloorToInt(minVector);
+        }
+
         public static Vector2Int EstimateGridPixelSize(List<Sprite> sprites)
         {
-            if (!sprites.Any())
-                return new Vector2Int(0, 0);
+            if (sprites.Count == 0 || sprites.Any(sprite => sprite == null))
+            {
+                return Vector2Int.zero;
+            }
 
             if (sprites.Count == 1)
                 return Vector2Int.FloorToInt(sprites[0].rect.size);
 
-            return new Vector2Int(
-                Mathf.FloorToInt(sprites.Min(s => s.rect.width)),
-                Mathf.FloorToInt(sprites.Min(s => s.rect.height))
-            );
+            return GetMinimum(sprites, s => s.rect.width, s => s.rect.height);
         }
 
         public static Vector2Int EstimateGridOffsetSize(List<Sprite> sprites)
         {
-            if (!sprites.Any())
-                return new Vector2Int(0, 0);
+            if (sprites.Count == 0 || sprites.Any(sprite => sprite == null))
+                return Vector2Int.zero;
 
             if (sprites.Count == 1)
                 return Vector2Int.FloorToInt(sprites[0].rect.position);
 
-            return new Vector2Int(
-                Mathf.FloorToInt(sprites.Min(s => s.rect.xMin)),
-                Mathf.FloorToInt(sprites.Min(s => s.rect.yMin))
-            );
+            return GetMinimum(sprites, s => s.rect.xMin, s => s.rect.yMin);
         }
 
         public static Vector2Int EstimateGridPaddingSize(List<Sprite> sprites, Vector2Int cellSize, Vector2Int offsetSize)
         {
-            if (!sprites.Any() || sprites.Count == 1)
-                return new Vector2Int(0, 0);
+            if (sprites.Count < 2 || sprites.Any(sprite => sprite == null))
+                return Vector2Int.zero;
 
-            var paddingSize = new Vector2Int(
-                Mathf.FloorToInt(sprites.Min(s =>
+            var paddingSize = GetMinimum(sprites
+                , (s =>
                 {
                     var xMin = s.rect.xMin - cellSize.x - offsetSize.x;
                     return xMin >= 0 ? xMin : Int32.MaxValue;
-                })),
-                Mathf.FloorToInt(sprites.Min(s =>
+                })
+                , (s =>
                 {
                     var yMin = s.rect.yMin - cellSize.y - offsetSize.y;
                     return yMin >= 0 ? yMin : Int32.MaxValue;
-                }))
+                })
             );
 
             // Assume there is no padding if the detected padding is greater than the cell size
-            if (paddingSize.x == Int32.MaxValue || paddingSize.x >= cellSize.x)
+            if (paddingSize.x >= cellSize.x)
                 paddingSize.x = 0;
-            if (paddingSize.y == Int32.MaxValue || paddingSize.y >= cellSize.y)
+            if (paddingSize.y >= cellSize.y)
                 paddingSize.y = 0;
             return paddingSize;
         }
@@ -349,6 +355,8 @@ namespace UnityEditor.Tilemaps
                         tilePath = multipleTiles
                             ? FileUtil.CombinePaths(path, String.Format("{0}.{1}", tile.name, k_TileExtension))
                             : path;
+                        // Case 1216101: Fix path slashes for Windows
+                        tilePath = FileUtil.NiceWinPath(tilePath);
                         switch (userTileCreationMode)
                         {
                             case UserTileCreationMode.CreateUnique:

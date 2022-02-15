@@ -23,6 +23,11 @@ namespace UnityEditor.Tilemaps
                 GridLayout.CellSwizzle.XYZ,
                 GridLayout.CellSwizzle.YXZ,
             };
+
+            public static readonly GUIContent transparencySortModeLabel =
+                EditorGUIUtility.TrTextContent("Sort Mode");
+            public static readonly GUIContent transparencySortAxisLabel =
+                EditorGUIUtility.TrTextContent("Sort Axis");
         }
 
         private static long s_LastClosedTime;
@@ -33,13 +38,15 @@ namespace UnityEditor.Tilemaps
         private int m_HexagonLayout;
         private GridPalette.CellSizing m_CellSizing;
         private Vector3 m_CellSize;
+        private TransparencySortMode m_TransparencySortMode;
+        private Vector3 m_TransparencySortAxis = new Vector3(0f, 0f, 1f);
 
         void Init(Rect buttonRect, GridPaintPaletteWindow owner)
         {
             m_Owner = owner;
             m_CellSize = new Vector3(1, 1, 0);
             buttonRect = GUIUtility.GUIToScreenRect(buttonRect);
-            ShowAsDropDown(buttonRect, new Vector2(312, 150));
+            ShowAsDropDown(buttonRect, new Vector2(312, 185));
         }
 
         internal void OnGUI()
@@ -73,10 +80,17 @@ namespace UnityEditor.Tilemaps
                         break;
                     }
                     case GridLayout.CellLayout.Isometric:
+                    {
+                        m_CellSizing = GridPalette.CellSizing.Manual;
+                        m_CellSize = new Vector3(1, 0.5f, 1);
+                        break;
+                    }
                     case GridLayout.CellLayout.IsometricZAsY:
                     {
                         m_CellSizing = GridPalette.CellSizing.Manual;
                         m_CellSize = new Vector3(1, 0.5f, 1);
+                        m_TransparencySortMode = TransparencySortMode.CustomAxis;
+                        m_TransparencySortAxis = new Vector3(0f, 1f, -0.25f);
                         break;
                     }
                 }
@@ -106,6 +120,19 @@ namespace UnityEditor.Tilemaps
                 m_CellSize = EditorGUILayout.Vector3Field(GUIContent.none, m_CellSize);
                 GUILayout.EndHorizontal();
             }
+            GUILayout.FlexibleSpace();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(Styles.transparencySortModeLabel, GUILayout.Width(90f));
+            m_TransparencySortMode = (TransparencySortMode)EditorGUILayout.EnumPopup(m_TransparencySortMode);
+            GUILayout.EndHorizontal();
+            using (new EditorGUI.DisabledScope(m_TransparencySortMode != TransparencySortMode.CustomAxis))
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label(Styles.transparencySortAxisLabel, GUILayout.Width(90f));
+                m_TransparencySortAxis = EditorGUILayout.Vector3Field("", m_TransparencySortAxis);
+                GUILayout.EndHorizontal();
+            }
 
             GUILayout.FlexibleSpace();
 
@@ -130,7 +157,8 @@ namespace UnityEditor.Tilemaps
                     if (m_Layout == GridLayout.CellLayout.Hexagon)
                         swizzle = Styles.hexagonSwizzleTypeValue[m_HexagonLayout];
 
-                    GameObject go = GridPaletteUtility.CreateNewPaletteAtCurrentFolder(m_Name, m_Layout, m_CellSizing, m_CellSize, swizzle);
+                    GameObject go = GridPaletteUtility.CreateNewPaletteAtCurrentFolder(m_Name, m_Layout, m_CellSizing, m_CellSize
+                        , swizzle, m_TransparencySortMode, m_TransparencySortAxis);
                     if (go != null)
                     {
                         m_Owner.palette = go;

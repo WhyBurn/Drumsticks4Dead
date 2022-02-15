@@ -1,4 +1,3 @@
-using UnityEditor.Presets;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -9,7 +8,6 @@ namespace UnityEditor.Tilemaps
     /// </summary>
     public class TileUtility
     {
-        [MenuItem("Assets/Create/Tile", priority = 357)]
         internal static void CreateNewTile()
         {
             string message = string.Format("Save tile'{0}':", "tile");

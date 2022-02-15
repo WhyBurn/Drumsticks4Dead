@@ -37,6 +37,7 @@ namespace UnityEditor.U2D.Sprites
             switch (evt.GetTypeForControl(id))
             {
                 case EventType.Layout:
+                case EventType.MouseMove:
                     if (!Tools.viewToolActive)
                         HandleUtility.AddDefaultControl(id);
                     break;

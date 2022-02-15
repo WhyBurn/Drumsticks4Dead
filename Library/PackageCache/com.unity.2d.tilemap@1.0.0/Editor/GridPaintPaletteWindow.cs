@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.EditorTools;
 using UnityEditor.ShortcutManagement;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Event = UnityEngine.Event;
 using Object = UnityEngine.Object;
 
 using UnityEditor.Experimental.SceneManagement;
+using UnityEditor.SceneManagement;
 
 namespace UnityEditor.Tilemaps
 {
     internal class GridPaintPaletteWindow : EditorWindow
     {
-        private enum TilemapFocusMode
+        internal enum TilemapFocusMode
         {
             None = 0,
             Tilemap = 1,
@@ -106,6 +106,7 @@ namespace UnityEditor.Tilemaps
             public static readonly GUIContent selectTileAsset = EditorGUIUtility.TrTextContent("Select Tile Asset");
             public static readonly GUIContent unlockPaletteEditing = EditorGUIUtility.TrTextContent("Unlock Palette Editing");
             public static readonly GUIContent lockPaletteEditing = EditorGUIUtility.TrTextContent("Lock Palette Editing");
+            public static readonly GUIContent openTilePalettePreferences = EditorGUIUtility.TrTextContent("Open Tile Palette Preferences");
             public static readonly GUIContent createNewPalette = EditorGUIUtility.TrTextContent("Create New Palette");
             public static readonly GUIContent focusLabel = EditorGUIUtility.TrTextContent("Focus On");
             public static readonly GUIContent rendererOverlayTitleLabel = EditorGUIUtility.TrTextContent("Tilemap");
@@ -113,14 +114,50 @@ namespace UnityEditor.Tilemaps
             public static readonly GUIContent prefabWarningIcon = EditorGUIUtility.TrIconContent("console.warnicon.sml", "Editing Tilemaps in Prefabs will have better performance if edited in Prefab Mode.");
 
             public static readonly GUIContent tilePalette = EditorGUIUtility.TrTextContent("Tile Palette");
-            public static readonly GUIContent edit = EditorGUIUtility.TrTextContent("Edit");
-            public static readonly GUIContent editModified = EditorGUIUtility.TrTextContent("Edit*");
-            public static readonly GUIContent canChangeZPosition = EditorGUIUtility.TrTextContent("Can Change Z Position");
-            public static readonly GUIContent zPosition = EditorGUIUtility.TrTextContent("Z Position");
-            public static readonly GUIContent resetZPosition = EditorGUIUtility.TrTextContent("Reset");
+            public static readonly GUIContent edit = EditorGUIUtility.TrTextContent("Edit", "Toggle to edit current Tile Palette");
+            public static readonly GUIContent editModified = EditorGUIUtility.TrTextContent("Edit*", "Toggle to save edits for current Tile Palette");
+            public static readonly GUIContent gizmos = EditorGUIUtility.TrTextContent("Gizmos", "Toggle visibility of Gizmos in the Tile Palette");
+            public static readonly GUIContent lockZPosition = EditorGUIUtility.TrTextContent("Lock Z Position", "Toggle editing of Z position");
+            public static readonly GUIContent zPosition = EditorGUIUtility.TrTextContent("Z Position", "Set a Z position for the active Brush for painting");
+            public static readonly GUIContent resetZPosition = EditorGUIUtility.TrTextContent("Reset", "Reset Z position for the active Brush");
             public static readonly GUIStyle ToolbarTitleStyle = "Toolbar";
             public static readonly GUIStyle dragHandle = "RL DragHandle";
             public static readonly float dragPadding = 3f;
+
+            public static readonly GUILayoutOption[] dropdownOptions = { GUILayout.Width(k_DropdownWidth) };
+        }
+
+        private class TilePaletteSaveScope : IDisposable
+        {
+            private GameObject m_GameObject;
+
+            public TilePaletteSaveScope(GameObject paletteInstance)
+            {
+                m_GameObject = paletteInstance;
+                if (m_GameObject != null)
+                {
+                    GridPaintingState.savingPalette = true;
+                    SetHideFlagsRecursively(paletteInstance, HideFlags.HideInHierarchy);
+                    foreach (var renderer in paletteInstance.GetComponentsInChildren<Renderer>())
+                        renderer.gameObject.layer = 0;
+                }
+            }
+
+            public void Dispose()
+            {
+                if (m_GameObject != null)
+                {
+                    SetHideFlagsRecursively(m_GameObject, HideFlags.HideAndDontSave);
+                    GridPaintingState.savingPalette = false;
+                }
+            }
+
+            private void SetHideFlagsRecursively(GameObject root, HideFlags flags)
+            {
+                root.hideFlags = flags;
+                for (int i = 0; i < root.transform.childCount; i++)
+                    SetHideFlagsRecursively(root.transform.GetChild(i).gameObject, flags);
+            }
         }
 
         internal class TilePaletteProperties
@@ -139,7 +176,8 @@ namespace UnityEditor.Tilemaps
             public static readonly string targetEditModeDialogNo = L10n.Tr("Scene");
 
             public static readonly string targetEditModeEditorPref = "TilePalette.TargetEditMode";
-            public static readonly string targetEditModeLookup = "Tile Palette Target Edit Mode";
+            public static readonly string targetEditModeLookup = "Target Edit Mode";
+            public static readonly string tilePalettePreferencesLookup = "Tile Palette";
 
             public static readonly GUIContent targetEditModeDialogLabel = EditorGUIUtility.TrTextContent(targetEditModeLookup, "Controls the behaviour of editing a Prefab Instance when one is selected as the Active Target in the Tile Palette");
         }
@@ -159,7 +197,7 @@ namespace UnityEditor.Tilemaps
         private const float k_ActiveTargetLabelWidth = 90f;
         private const float k_ActiveTargetDropdownWidth = 130f;
         private const float k_ActiveTargetWarningSize = 20f;
-        private const float k_TopAreaHeight = 100f;
+        private const float k_TopAreaHeight = 104f;
         private const float k_MinBrushInspectorHeight = 50f;
         private const float k_MinClipboardHeight = 200f;
         private const float k_ToolbarHeight = 17f;
@@ -168,13 +206,12 @@ namespace UnityEditor.Tilemaps
 
         private PaintableSceneViewGrid m_PaintableSceneViewGrid;
 
-
         class ShortcutContext : IShortcutToolContext
         {
             public bool active { get; set; }
         }
 
-        ShortcutContext m_ShortcutContext = new ShortcutContext { active = true };
+        readonly ShortcutContext m_ShortcutContext = new ShortcutContext { active = true };
 
         [FormerlyPrefKeyAs("Grid Painting/Select", "s")]
         [Shortcut("Grid Painting/Select", typeof(ShortcutContext), KeyCode.S)]
@@ -324,6 +361,14 @@ namespace UnityEditor.Tilemaps
             }
         }
 
+        public static bool isActive
+        {
+            get
+            {
+                return s_Instances != null && s_Instances.Count > 0;
+            }
+        }
+
         [SerializeField]
         private PreviewResizer m_PreviewResizer;
 
@@ -331,6 +376,14 @@ namespace UnityEditor.Tilemaps
 
         [SerializeField]
         private GameObject m_Palette;
+
+        [SerializeField]
+        private bool m_DrawGizmos;
+
+        internal bool drawGizmos
+        {
+            get { return m_DrawGizmos; }
+        }
 
         public GameObject palette
         {
@@ -361,6 +414,9 @@ namespace UnityEditor.Tilemaps
             }
         }
 
+        private bool m_DelayedResetPaletteInstance;
+        private bool m_Enabled;
+
         public GridPaintPaletteClipboard clipboardView { get; private set; }
 
         private Vector2 m_BrushScroll;
@@ -372,7 +428,7 @@ namespace UnityEditor.Tilemaps
         {
             get
             {
-                if (m_PreviewUtility == null)
+                if (m_Enabled && m_PreviewUtility == null)
                     InitPreviewUtility();
 
                 return m_PreviewUtility;
@@ -428,9 +484,10 @@ namespace UnityEditor.Tilemaps
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.BeginVertical();
-            Rect clipboardToolbarRect = EditorGUILayout.BeginHorizontal(GUIContent.none, "Toolbar");
+            Rect clipboardToolbarRect = EditorGUILayout.BeginHorizontal(GUIContent.none, Styles.ToolbarTitleStyle);
             DoClipboardHeader();
             EditorGUILayout.EndHorizontal();
+            ConvertGridPrefabToPalette(clipboardToolbarRect);
             Rect dragRect = new Rect(k_DropdownWidth + k_ResizerDragRectPadding, 0, position.width - k_DropdownWidth - k_ResizerDragRectPadding, k_ToolbarHeight);
             float brushInspectorSize = m_PreviewResizer.ResizeHandle(position, k_MinBrushInspectorHeight, k_MinClipboardHeight, k_ToolbarHeight, dragRect);
             float clipboardHeight = position.height - brushInspectorSize - k_TopAreaHeight;
@@ -474,15 +531,21 @@ namespace UnityEditor.Tilemaps
 
         static void DoTilemapToolbar()
         {
-            EditorTools.EditorTool active = EditorTools.EditorToolContext.activeTool;
-            EditorTools.EditorTool selected;
+            EditorTool active = EditorToolManager.activeTool;
+            EditorTool selected;
+
             if (EditorGUILayout.EditorToolbar(active, TilemapEditorTool.tilemapEditorTools, out selected))
             {
                 if (active == selected)
-                    EditorTools.EditorTools.SetActiveTool(EditorTools.EditorToolContext.GetLastTool(x => !TilemapEditorTool.tilemapEditorTools.Contains(x)));
+                    ToolManager.SetActiveTool(EditorToolManager.GetLastTool(x => !TilemapEditorTool.tilemapEditorTools.Contains(x)));
                 else
-                    EditorTools.EditorTools.SetActiveTool(selected);
+                    ToolManager.SetActiveTool(selected);
             }
+        }
+
+        public void DelayedResetPreviewInstance()
+        {
+            m_DelayedResetPaletteInstance = true;
         }
 
         public void ResetPreviewInstance()
@@ -490,6 +553,7 @@ namespace UnityEditor.Tilemaps
             if (m_PreviewUtility == null)
                 InitPreviewUtility();
 
+            m_DelayedResetPaletteInstance = false;
             DestroyPreviewInstance();
             if (palette != null)
             {
@@ -498,14 +562,14 @@ namespace UnityEditor.Tilemaps
                 // Disconnecting prefabs is no longer possible.
                 // If performance of overrides on palette palette instance turns out to be a problem.
                 // unpack the prefab instance here, and overwrite the prefab later instead of reconnecting.
+                PrefabUtility.UnpackPrefabInstance(m_PaletteInstance, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
 
                 EditorUtility.InitInstantiatedPreviewRecursive(m_PaletteInstance);
                 m_PaletteInstance.transform.position = new Vector3(0, 0, 0);
                 m_PaletteInstance.transform.rotation = Quaternion.identity;
                 m_PaletteInstance.transform.localScale = Vector3.one;
 
-                string assetPath = AssetDatabase.GetAssetPath(palette);
-                GridPalette paletteAsset = AssetDatabase.LoadAssetAtPath<GridPalette>(assetPath);
+                GridPalette paletteAsset = GridPaletteUtility.GetGridPaletteFromPaletteAsset(palette);
                 if (paletteAsset != null)
                 {
                     if (paletteAsset.cellSizing == GridPalette.CellSizing.Automatic)
@@ -517,25 +581,25 @@ namespace UnityEditor.Tilemaps
                         }
                         else
                         {
-                            Debug.LogWarning("Grid component not found from: " + assetPath);
+                            Debug.LogWarning("Grid component not found from: " + palette.name);
                         }
                     }
+
+                    previewUtility.camera.transparencySortMode = paletteAsset.transparencySortMode;
+                    previewUtility.camera.transparencySortAxis = paletteAsset.transparencySortAxis;
                 }
                 else
                 {
-                    Debug.LogWarning("GridPalette subasset not found from: " + assetPath);
-                }
-
-                foreach (var renderer in m_PaletteInstance.GetComponentsInChildren<Renderer>())
-                {
-                    renderer.gameObject.layer = Camera.PreviewCullingLayer;
-                    renderer.allowOcclusionWhenDynamic = false;
+                    Debug.LogWarning("GridPalette subasset not found from: " + palette.name);
+                    previewUtility.camera.transparencySortMode = TransparencySortMode.Default;
+                    previewUtility.camera.transparencySortAxis = new Vector3(0f, 0f, 1f);
                 }
 
                 foreach (var transform in m_PaletteInstance.GetComponentsInChildren<Transform>())
                     transform.gameObject.hideFlags = HideFlags.HideAndDontSave;
 
-                PreviewRenderUtility.SetEnabledRecursive(m_PaletteInstance, false);
+                // Show all renderers from Palettes from previous versions
+                PreviewRenderUtility.SetEnabledRecursive(m_PaletteInstance, true);
 
                 clipboardView.ResetPreviewMesh();
             }
@@ -544,15 +608,20 @@ namespace UnityEditor.Tilemaps
         public void DestroyPreviewInstance()
         {
             if (m_PaletteInstance != null)
+            {
+                Undo.ClearUndo(m_PaletteInstance);
                 DestroyImmediate(m_PaletteInstance);
+            }
         }
 
         public void InitPreviewUtility()
         {
+            int previewCullingLayer = Camera.PreviewCullingLayer;
+
             m_PreviewUtility = new PreviewRenderUtility(true, true);
-            m_PreviewUtility.camera.cullingMask = 1 << Camera.PreviewCullingLayer;
-            m_PreviewUtility.camera.gameObject.layer = Camera.PreviewCullingLayer;
-            m_PreviewUtility.lights[0].gameObject.layer = Camera.PreviewCullingLayer;
+            m_PreviewUtility.camera.cullingMask = 1 << previewCullingLayer;
+            m_PreviewUtility.camera.gameObject.layer = previewCullingLayer;
+            m_PreviewUtility.lights[0].gameObject.layer = previewCullingLayer;
             m_PreviewUtility.camera.orthographic = true;
             m_PreviewUtility.camera.orthographicSize = 5f;
             m_PreviewUtility.camera.transform.position = new Vector3(0f, 0f, -10f);
@@ -575,23 +644,14 @@ namespace UnityEditor.Tilemaps
         {
             if (paletteInstance != null && palette != null)
             {
-                GridPaintingState.savingPalette = true;
-                SetHideFlagsRecursivelyIgnoringTilemapChildren(paletteInstance, HideFlags.HideInHierarchy);
-                string path = AssetDatabase.GetAssetPath(palette);
-                PrefabUtility.SaveAsPrefabAssetAndConnect(paletteInstance, path, InteractionMode.UserAction);
-                SetHideFlagsRecursivelyIgnoringTilemapChildren(paletteInstance, HideFlags.HideAndDontSave);
-                GridPaintingState.savingPalette = false;
-            }
-        }
+                using (new TilePaletteSaveScope(paletteInstance))
+                {
+                    string path = AssetDatabase.GetAssetPath(palette);
+                    PrefabUtility.SaveAsPrefabAssetAndConnect(paletteInstance, path, InteractionMode.AutomatedAction);
+                }
 
-        private void SetHideFlagsRecursivelyIgnoringTilemapChildren(GameObject root, HideFlags flags)
-        {
-            root.hideFlags = flags;
-            // case 944661: Ignore all child game objects instantiated by a Tilemap component in the palette
-            if (root.GetComponent<Tilemap>() == null)
-            {
-                for (int i = 0; i < root.transform.childCount; i++)
-                    SetHideFlagsRecursivelyIgnoringTilemapChildren(root.transform.GetChild(i).gameObject, flags);
+                ResetPreviewInstance();
+                Repaint();
             }
         }
 
@@ -620,7 +680,15 @@ namespace UnityEditor.Tilemaps
             else
                 pm.AddItem(Styles.unlockPaletteEditing, false, FlipLocked);
 
+            pm.AddItem(Styles.openTilePalettePreferences, false, OpenTilePalettePreferences);
+
             pm.ShowAsContext();
+        }
+
+        private void OpenTilePalettePreferences()
+        {
+            var settingsWindow = SettingsWindow.Show(SettingsScope.User);
+            settingsWindow.FilterProviders(TilePaletteProperties.tilePalettePreferencesLookup);
         }
 
         private void FlipLocked()
@@ -659,7 +727,7 @@ namespace UnityEditor.Tilemaps
         private void DoBrushesDropdownToolbar()
         {
             GUIContent content = GUIContent.Temp(GridPaintingState.gridBrush.name);
-            if (EditorGUILayout.DropdownButton(content, FocusType.Passive, EditorStyles.toolbarPopup, GUILayout.Width(k_DropdownWidth)))
+            if (EditorGUILayout.DropdownButton(content, FocusType.Passive, EditorStyles.toolbarPopup, Styles.dropdownOptions))
             {
                 var menuData = new GridBrushesDropdown.MenuItemProvider();
                 var flexibleMenu = new GridBrushesDropdown(menuData, GridPaletteBrushes.brushes.IndexOf(GridPaintingState.gridBrush), null, SelectBrush, k_DropdownWidth);
@@ -685,6 +753,7 @@ namespace UnityEditor.Tilemaps
 
         public void OnEnable()
         {
+            m_Enabled = true;
             instances.Add(this);
             if (clipboardView == null)
             {
@@ -733,8 +802,8 @@ namespace UnityEditor.Tilemaps
                 palette = GridPalettes.palettes[0];
             }
 
-            EditorTools.EditorTools.activeToolChanged += ActiveToolChanged;
-            EditorTools.EditorTools.activeToolChanging += ActiveToolChanging;
+            ToolManager.activeToolChanged += ActiveToolChanged;
+            ToolManager.activeToolChanging += ActiveToolChanging;
 
             ShortcutIntegration.instance.contextManager.RegisterToolContext(m_ShortcutContext);
         }
@@ -775,6 +844,7 @@ namespace UnityEditor.Tilemaps
 
         public void OnDisable()
         {
+            m_Enabled = false;
             DisableFocus();
             focusMode = TilemapFocusMode.None;
 
@@ -793,12 +863,12 @@ namespace UnityEditor.Tilemaps
             if (PaintableGrid.InGridEditMode())
             {
                 // Set Editor Tool to an always available Tool, as Tile Palette Tools are not available any more
-                EditorTools.EditorTools.SetActiveTool<UnityEditor.RectTool>();
+                ToolManager.SetActiveTool<UnityEditor.RectTool>();
             }
 
             ShortcutIntegration.instance.profileManager.shortcutBindingChanged -= UpdateTooltips;
-            EditorTools.EditorTools.activeToolChanged -= ActiveToolChanged;
-            EditorTools.EditorTools.activeToolChanging -= ActiveToolChanging;
+            ToolManager.activeToolChanged -= ActiveToolChanged;
+            ToolManager.activeToolChanging -= ActiveToolChanging;
             GridSelection.gridSelectionChanged -= OnGridSelectionChanged;
             SceneView.duringSceneGui -= OnSceneViewGUI;
             GridPaintingState.scenePaintTargetChanged -= OnScenePaintTargetChanged;
@@ -821,7 +891,7 @@ namespace UnityEditor.Tilemaps
         {
             if (GridPaintingState.gridBrush != null && PaintableGrid.InGridEditMode() && GridPaintingState.activeBrushEditor != null)
             {
-                GridBrushBase.Tool tool = PaintableGrid.EditTypeToBrushTool(EditorTools.EditorTools.activeToolType);
+                GridBrushBase.Tool tool = PaintableGrid.EditTypeToBrushTool(ToolManager.activeToolType);
                 GridPaintingState.activeBrushEditor.OnToolActivated(tool);
                 m_PreviousToolActivatedEditor = GridPaintingState.activeBrushEditor;
                 m_PreviousToolActivated = tool;
@@ -891,15 +961,15 @@ namespace UnityEditor.Tilemaps
             var hasLastActiveGrid = GridPaintingState.lastActiveGrid != null;
             using (new EditorGUI.DisabledScope(!hasLastActiveGrid))
             {
-                var canChangeZPosition = false;
+                var lockZPosition = false;
                 if (GridPaintingState.activeBrushEditor != null)
                 {
                     EditorGUI.BeginChangeCheck();
-                    canChangeZPosition = EditorGUILayout.Toggle(Styles.canChangeZPosition, GridPaintingState.activeBrushEditor.canChangeZPosition);
+                    lockZPosition = EditorGUILayout.Toggle(Styles.lockZPosition, !GridPaintingState.activeBrushEditor.canChangeZPosition);
                     if (EditorGUI.EndChangeCheck())
-                        GridPaintingState.activeBrushEditor.canChangeZPosition = canChangeZPosition;
+                        GridPaintingState.activeBrushEditor.canChangeZPosition = !lockZPosition;
                 }
-                using (new EditorGUI.DisabledScope(!canChangeZPosition))
+                using (new EditorGUI.DisabledScope(lockZPosition))
                 {
                     EditorGUILayout.BeginHorizontal();
                     EditorGUI.BeginChangeCheck();
@@ -1052,13 +1122,27 @@ namespace UnityEditor.Tilemaps
                     EditorStyles.toolbarButton);
             }
             GUILayout.FlexibleSpace();
+            using (new EditorGUI.DisabledScope(palette == null))
+            {
+                EditorGUI.BeginChangeCheck();
+                m_DrawGizmos = GUILayout.Toggle(m_DrawGizmos, Styles.gizmos, EditorStyles.toolbarButton);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    if (m_DrawGizmos)
+                    {
+                        clipboardView.SavePaletteIfNecessary();
+                        ResetPreviewInstance();
+                    }
+                    Repaint();
+                }
+            }
             EditorGUILayout.EndHorizontal();
         }
 
         private void DoPalettesDropdown()
         {
             string name = palette != null ? palette.name : Styles.createNewPalette.text;
-            Rect rect = GUILayoutUtility.GetRect(GUIContent.Temp(name), EditorStyles.toolbarDropDown, GUILayout.Width(k_DropdownWidth));
+            Rect rect = GUILayoutUtility.GetRect(GUIContent.Temp(name), EditorStyles.toolbarDropDown, Styles.dropdownOptions);
             if (GridPalettes.palettes.Count == 0)
             {
                 if (EditorGUI.DropdownButton(rect, GUIContent.Temp(name), FocusType.Passive, EditorStyles.toolbarDropDown))
@@ -1098,6 +1182,16 @@ namespace UnityEditor.Tilemaps
                 GUIUtility.ExitGUI();
         }
 
+        private void DisplayClipboardText(GUIContent clipboardText, Rect position)
+        {
+            Color old = GUI.color;
+            GUI.color = Color.gray;
+            var infoSize = GUI.skin.label.CalcSize(clipboardText);
+            Rect rect = new Rect(position.center.x - infoSize.x * .5f, position.center.y - infoSize.y, 500, 100);
+            GUI.Label(rect, clipboardText);
+            GUI.color = old;
+        }
+
         private void OnClipboardGUI(Rect position)
         {
             if (Event.current.type != EventType.Layout && position.Contains(Event.current.mousePosition) && GridPaintingState.activeGrid != clipboardView && clipboardView.unlocked)
@@ -1105,8 +1199,6 @@ namespace UnityEditor.Tilemaps
                 GridPaintingState.activeGrid = clipboardView;
                 SceneView.RepaintAll();
             }
-
-            ConvertTilemapPrefabToPalette(position);
 
             // Validate palette (case 1017965)
             GUIContent paletteError = null;
@@ -1124,10 +1216,7 @@ namespace UnityEditor.Tilemaps
 
             if (paletteError != null)
             {
-                Color old = GUI.color;
-                GUI.color = Color.gray;
-                GUI.Label(new Rect(position.center.x - GUI.skin.label.CalcSize(paletteError).x * .5f, position.center.y, 500, 100), paletteError);
-                GUI.color = old;
+                DisplayClipboardText(paletteError, position);
                 return;
             }
 
@@ -1136,6 +1225,9 @@ namespace UnityEditor.Tilemaps
 
             if (Event.current.type == EventType.Repaint)
                 clipboardView.guiRect = position;
+
+            if (m_DelayedResetPaletteInstance)
+                ResetPreviewInstance();
 
             EditorGUI.BeginChangeCheck();
             clipboardView.OnGUI();
@@ -1146,17 +1238,13 @@ namespace UnityEditor.Tilemaps
 
             if (clipboardView.showNewEmptyClipboardInfo)
             {
-                Color old = GUI.color;
-                GUI.color = Color.gray;
-                Rect rect = new Rect(position.center.x - GUI.skin.label.CalcSize(Styles.emptyPaletteInfo).x * .5f, position.center.y, 500, 100);
-                GUI.Label(rect, Styles.emptyPaletteInfo);
-                GUI.color = old;
+                DisplayClipboardText(Styles.emptyPaletteInfo, position);
             }
         }
 
-        private void ConvertTilemapPrefabToPalette(Rect clipboardPosition)
+        private void ConvertGridPrefabToPalette(Rect targetPosition)
         {
-            if (!clipboardPosition.Contains(Event.current.mousePosition)
+            if (!targetPosition.Contains(Event.current.mousePosition)
                 || (Event.current.type != EventType.DragPerform
                     && Event.current.type != EventType.DragUpdated)
                 || DragAndDrop.objectReferences.Length != 1)
@@ -1180,7 +1268,6 @@ namespace UnityEditor.Tilemaps
                     var path = AssetDatabase.GetAssetPath(draggedObject);
                     var assets = AssetDatabase.LoadAllAssetsAtPath(path);
                     bool hasNewPaletteAsset = false;
-                    bool isTilemapPrefab = false;
                     Grid gridPrefab = null;
                     foreach (var asset in assets)
                     {
@@ -1189,15 +1276,12 @@ namespace UnityEditor.Tilemaps
                         GameObject go = asset as GameObject;
                         if (go != null)
                         {
-                            var tilemap = go.GetComponent<Tilemap>();
-                            if (tilemap != null)
-                                isTilemapPrefab = true;
                             var grid = go.GetComponent<Grid>();
                             if (grid != null)
                                 gridPrefab = grid;
                         }
                     }
-                    if (!hasNewPaletteAsset && gridPrefab != null && isTilemapPrefab)
+                    if (!hasNewPaletteAsset && gridPrefab != null)
                     {
                         var cellLayout = gridPrefab.cellLayout;
                         var cellSizing = (cellLayout == GridLayout.CellLayout.Rectangle
@@ -1228,22 +1312,47 @@ namespace UnityEditor.Tilemaps
             }
         }
 
+        internal void SetFocusMode(TilemapFocusMode tilemapFocusMode)
+        {
+            if (tilemapFocusMode != focusMode)
+            {
+                DisableFocus();
+                focusMode = tilemapFocusMode;
+                EnableFocus();
+            }
+        }
+
         private void DisplayFocusMode(Object displayTarget, SceneView sceneView)
         {
             var labelWidth = EditorGUIUtility.labelWidth;
             var fieldWidth = EditorGUIUtility.fieldWidth;
             EditorGUIUtility.labelWidth = EditorGUIUtility.fieldWidth =
                 0.5f * (EditorGUIUtility.labelWidth + EditorGUIUtility.fieldWidth);
-            var oldFocus = focusMode;
-            var focus = (TilemapFocusMode)EditorGUILayout.EnumPopup(Styles.focusLabel, oldFocus);
-            if (focus != oldFocus)
-            {
-                DisableFocus();
-                focusMode = focus;
-                EnableFocus();
-            }
+            var newFocus = (TilemapFocusMode)EditorGUILayout.EnumPopup(Styles.focusLabel, focusMode);
+            SetFocusMode(newFocus);
             EditorGUIUtility.labelWidth = labelWidth;
             EditorGUIUtility.fieldWidth = fieldWidth;
+        }
+
+        private void FilterSingleSceneObjectInScene(int instanceID)
+        {
+            if (SceneView.lastActiveSceneView != null)
+                SceneView.lastActiveSceneView.SetSceneViewFiltering(true);
+
+            StageHandle currentStageHandle = StageUtility.GetCurrentStageHandle();
+            if (currentStageHandle.IsValid() && !currentStageHandle.isMainStage)
+            {
+                HierarchyProperty.FilterSingleSceneObjectInScene(instanceID
+                    , false
+                    , new UnityEngine.SceneManagement.Scene[] { currentStageHandle.customScene });
+            }
+            else
+            {
+                HierarchyProperty.FilterSingleSceneObject(instanceID, false);
+            }
+
+            if (SceneView.lastActiveSceneView != null)
+                SceneView.lastActiveSceneView.Repaint();
         }
 
         private void EnableFocus()
@@ -1255,9 +1364,7 @@ namespace UnityEditor.Tilemaps
             {
                 case TilemapFocusMode.Tilemap:
                 {
-                    if (SceneView.lastActiveSceneView != null)
-                        SceneView.lastActiveSceneView.SetSceneViewFiltering(true);
-                    HierarchyProperty.FilterSingleSceneObject(GridPaintingState.scenePaintTarget.GetInstanceID(), false);
+                    FilterSingleSceneObjectInScene(GridPaintingState.scenePaintTarget.GetInstanceID());
                     break;
                 }
                 case TilemapFocusMode.Grid:
@@ -1265,9 +1372,7 @@ namespace UnityEditor.Tilemaps
                     Tilemap tilemap = GridPaintingState.scenePaintTarget.GetComponent<Tilemap>();
                     if (tilemap != null && tilemap.layoutGrid != null)
                     {
-                        if (SceneView.lastActiveSceneView != null)
-                            SceneView.lastActiveSceneView.SetSceneViewFiltering(true);
-                        HierarchyProperty.FilterSingleSceneObject(tilemap.layoutGrid.gameObject.GetInstanceID(), false);
+                        FilterSingleSceneObjectInScene(tilemap.layoutGrid.gameObject.GetInstanceID());
                     }
                     break;
                 }
@@ -1283,10 +1388,21 @@ namespace UnityEditor.Tilemaps
             if (focusMode == TilemapFocusMode.None)
                 return;
 
-            HierarchyProperty.ClearSceneObjectsFilter();
+            StageHandle currentStageHandle = StageUtility.GetCurrentStageHandle();
+            if (currentStageHandle.IsValid() && !currentStageHandle.isMainStage)
+            {
+                HierarchyProperty.ClearSceneObjectsFilterInScene(new UnityEngine.SceneManagement.Scene[] { currentStageHandle.customScene });
+            }
+            else
+            {
+                HierarchyProperty.ClearSceneObjectsFilter();
+            }
 
             if (SceneView.lastActiveSceneView != null)
+            {
                 SceneView.lastActiveSceneView.SetSceneViewFiltering(false);
+                SceneView.lastActiveSceneView.Repaint();
+            }
         }
 
         [MenuItem("Window/2D/Tile Palette", false, 2)]
@@ -1311,7 +1427,7 @@ namespace UnityEditor.Tilemaps
 
                 foreach (var window in instances)
                 {
-                    window.ResetPreviewInstance();
+                    window.DelayedResetPreviewInstance();
                 }
             }
         }
@@ -1320,16 +1436,16 @@ namespace UnityEditor.Tilemaps
         {
             static void OnWillCreateAsset(string assetName)
             {
-                SavePalettesIfRequired();
+                SavePalettesIfRequired(null);
             }
 
             static string[] OnWillSaveAssets(string[] paths)
             {
-                SavePalettesIfRequired();
+                SavePalettesIfRequired(paths);
                 return paths;
             }
 
-            static void SavePalettesIfRequired()
+            static void SavePalettesIfRequired(string[] paths)
             {
                 if (GridPaintingState.savingPalette)
                     return;
@@ -1338,6 +1454,7 @@ namespace UnityEditor.Tilemaps
                 {
                     if (window.clipboardView.isModified)
                     {
+                        window.clipboardView.CheckRevertIfChanged(paths);
                         window.clipboardView.SavePaletteIfNecessary();
                         window.Repaint();
                     }
