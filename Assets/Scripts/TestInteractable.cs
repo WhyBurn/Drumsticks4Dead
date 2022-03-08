@@ -27,7 +27,6 @@ public class TestInteractable : Interactable
 
     public override void Interact(GameObject playerObject)
     {
-        Debug.Log("Interacted");
         interactableRenderer.color = new Color(1, 0, 0);
         time = 2;
     }
