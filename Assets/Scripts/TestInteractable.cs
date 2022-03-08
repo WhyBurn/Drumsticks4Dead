@@ -29,6 +29,6 @@ public class TestInteractable : Interactable
     {
         Debug.Log("Interacted");
         interactableRenderer.color = new Color(1, 0, 0);
-        time = 5;
+        time = 2;
     }
 }

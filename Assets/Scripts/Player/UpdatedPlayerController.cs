@@ -20,6 +20,7 @@ public class UpdatedPlayerController : MonoBehaviour
     void Update()
     {
         rb.velocity = movement * speed;
+        Debug.DrawRay(transform.position, transform.up, Color.yellow, interactDistance);
     }
 
     public void OnMove(InputAction.CallbackContext value)
@@ -31,12 +32,27 @@ public class UpdatedPlayerController : MonoBehaviour
     public void OnInteract(InputAction.CallbackContext value)
     {
         Debug.Log("Interact Attempt");
-        var closest = Physics2D.Raycast(transform.position, transform.forward, interactDistance);
-        GameObject closestObject = closest.transform.gameObject;
-        Interactable closestInteractable = closestObject.GetComponent<Interactable>();
-        if(closestInteractable != null)
+        bool foundObject = false;
+        RaycastHit2D closest = default;
+        foreach (var hit in Physics2D.RaycastAll(transform.position, transform.up, interactDistance))
         {
-            closestInteractable.Interact(gameObject);
+            if(!foundObject || hit.distance < closest.distance)
+            {
+                if(hit.transform.gameObject != gameObject)
+                {
+                    closest = hit;
+                    foundObject = true;
+                }
+            }
+        }
+        if (foundObject)
+        {
+            GameObject closestObject = closest.transform.gameObject;
+            Interactable closestInteractable = closestObject.GetComponent<Interactable>();
+            if (closestInteractable != null)
+            {
+                closestInteractable.Interact(gameObject);
+            }
         }
     }
 }
