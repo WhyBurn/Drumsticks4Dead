@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 75626035}
   - component: {fileID: 75626034}
   - component: {fileID: 75626033}
+  - component: {fileID: 75626038}
   m_Layer: 0
   m_Name: TestPlayer2
   m_TagString: Untagged
@@ -165,7 +166,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 75626032}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cca14791ead62541988e7e07daeb0e9, type: 3}
+  m_Script: {fileID: 11500000, guid: 395c0a53165b5cc478d75330e240a472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 50
@@ -192,7 +193,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &75626036
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -258,6 +259,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &75626038
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75626032}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 5.2
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,7 +384,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1397204469}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4077ef5aee805b94e88dfe59cf208674, type: 3}
+  m_Script: {fileID: 11500000, guid: b3371b2c0c36442479fc008751680520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   numPlayers: 2
@@ -510,6 +527,7 @@ GameObject:
   - component: {fileID: 2052292481}
   - component: {fileID: 2052292480}
   - component: {fileID: 2052292479}
+  - component: {fileID: 2052292482}
   m_Layer: 0
   m_Name: TestPlayer
   m_TagString: Untagged
@@ -603,7 +621,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2052292476}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cca14791ead62541988e7e07daeb0e9, type: 3}
+  m_Script: {fileID: 11500000, guid: 395c0a53165b5cc478d75330e240a472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 50
@@ -630,4 +648,20 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!58 &2052292482
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052292476}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 5.2
