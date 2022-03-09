@@ -39,10 +39,16 @@ public class CharacterController : MonoBehaviour
             vertiaclDifference = Mathf.Max(vertiaclDifference, maxAcceleration * -1);
         }
         body.AddForce(new Vector2(horizontalDifference, vertiaclDifference), ForceMode2D.Force);
+        TryInteract();
     }
 
     virtual public Vector2 GetMovement()
     {
         return new Vector2(0, 0);
+    }
+
+    virtual public void TryInteract()
+    {
+
     }
 }
