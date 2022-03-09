@@ -72,3 +72,11 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 Temp/UnityLockfile
+Library/ArtifactDB
+Library/SourceAssetDB
+Library/ArtifactDB
+Library/CurrentLayout-default.dwlt
+Library/EditorOnlyScriptingSettings.json
+Library/SceneVisibilityState.asset
+Library/SourceAssetDB
+Logs/shadercompiler-UnityShaderCompiler.exe0.log
