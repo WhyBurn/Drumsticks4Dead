@@ -7,10 +7,48 @@ public class PlayerController : CharacterController
 {
     public int playerNumber;
     public float interactDistance;
+    public GameObject chickenProjectile;
+    public Transform projectileLoc;
+    public float projectileSpeed = 10f;
+    public float lastingTime = 10f;
 
     override public Vector2 GetMovement()
     {
         return (Inputs.playerMovements[playerNumber]);
+    }
+
+    //Throwing logic
+    public override void TryThrow()
+    {
+        //This can work for any player. (though we have to manually set what player number this is)
+        
+        if(Inputs.playerThrowDown[playerNumber])
+        {
+            //check to see if the object we want to throw exists
+            if(chickenProjectile != null)
+            {
+                //Debug.Log("Chicken Exists");
+
+                //Instantiate the chicken object
+                var proj = (GameObject)Instantiate(chickenProjectile, projectileLoc.transform.position, projectileLoc.transform.rotation);
+
+                //store the projectile's rigidbody
+                Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+
+                //give this projectile some velocity
+                if (rb)
+                {
+                    rb.AddForce(rb.transform.up * projectileSpeed, ForceMode2D.Impulse);
+                }
+
+                //Destroy this projectile after a few seconds
+                Destroy(proj, lastingTime);
+            }
+            else
+            {
+                Debug.Log("Chicken does not exist");
+            }
+        }
     }
 
     override public void TryInteract()

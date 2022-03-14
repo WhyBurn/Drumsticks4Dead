@@ -40,6 +40,7 @@ public class CharacterController : MonoBehaviour
         }
         body.AddForce(new Vector2(horizontalDifference, vertiaclDifference), ForceMode2D.Force);
         TryInteract();
+        TryThrow();
     }
 
     virtual public Vector2 GetMovement()
@@ -48,6 +49,12 @@ public class CharacterController : MonoBehaviour
     }
 
     virtual public void TryInteract()
+    {
+
+    }
+
+    //Make virtual so that it can be overridden by anything (but leave blank because the base controller doesn't do anything)
+    virtual public void TryThrow()
     {
 
     }
