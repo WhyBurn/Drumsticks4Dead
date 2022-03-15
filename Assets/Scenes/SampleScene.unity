@@ -451,7 +451,7 @@ GameObject:
   - component: {fileID: 1596672473}
   - component: {fileID: 1596672472}
   m_Layer: 0
-  m_Name: TestInteractable
+  m_Name: TestFreezer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -466,9 +466,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1596672471}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ed4137ab2f2aab4bbdc2f038cde8603, type: 3}
+  m_Script: {fileID: 11500000, guid: a1625602c9ef46c40b99c538d3ba65ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chickenObject: {fileID: 9200299570921511051, guid: 3b21e948c7a3a6f4bbe36b93cc553716,
+    type: 3}
 --- !u!58 &1596672473
 CircleCollider2D:
   m_ObjectHideFlags: 0
