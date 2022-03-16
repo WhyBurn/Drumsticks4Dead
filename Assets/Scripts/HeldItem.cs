@@ -4,6 +4,14 @@ using UnityEngine;
 
 public abstract class HeldItem : MonoBehaviour
 {
+    private bool held;
+
+    public bool Held
+    {
+        get { return (held); }
+        set { held = value; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {

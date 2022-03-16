@@ -55,7 +55,8 @@ public class PlayerController : CharacterController
             {
                 if (!foundObject || hit.distance < closest.distance)
                 {
-                    if (hit.transform.gameObject != gameObject)
+                    HeldItem item = hit.transform.gameObject.GetComponent<HeldItem>();
+                    if (hit.transform.gameObject != gameObject && (item == null || !item.Held))
                     {
                         closest = hit;
                         foundObject = true;
@@ -79,6 +80,20 @@ public class PlayerController : CharacterController
         if(heldItem == null)
         {
             heldItem = item;
+            heldItem.Held = true;
+        }
+    }
+
+    //Creates a new object based on the prefab for and holds it.
+    public void GrabItem(GameObject itemPrefab)
+    {
+        if (heldItem == null)
+        {
+            if (itemPrefab.GetComponent<HeldItem>() != null)
+            {
+                heldItem = Instantiate(itemPrefab).GetComponent<HeldItem>();
+                heldItem.Held = true;
+            }
         }
     }
 }

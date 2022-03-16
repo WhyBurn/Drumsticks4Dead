@@ -18,7 +18,6 @@ public class FreezerInteractable : Interactable
 
     public override void Interact(GameObject playerObject)
     {
-        GameObject chicken = Instantiate(chickenObject);
-        playerObject.GetComponent<PlayerController>().GrabItem(chicken.GetComponent<HeldItem>());
+        playerObject.GetComponent<PlayerController>().GrabItem(chickenObject);
     }
 }

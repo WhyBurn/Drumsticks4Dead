@@ -21,6 +21,8 @@ public class ChickenItem : HeldItem
         //Destroy this projectile after a few seconds
         Destroy(gameObject, lastingTime);
 
+        Held = false;
+
         return (null);
     }
 }
