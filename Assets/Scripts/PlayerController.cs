@@ -10,6 +10,11 @@ public class PlayerController : CharacterController
     public Transform projectileLoc;
     private HeldItem heldItem;
 
+    public HeldItem Held
+    {
+        get { return (heldItem); }
+    }
+
     override public Vector2 GetMovement()
     {
         return (Inputs.playerMovements[playerNumber]);
@@ -72,6 +77,15 @@ public class PlayerController : CharacterController
                     closestInteractable.Interact(gameObject);
                 }
             }
+        }
+    }
+
+    public void RemoveHeldItem()
+    {
+        if(heldItem != null)
+        {
+            Destroy(heldItem.gameObject);
+            heldItem = null;
         }
     }
 
