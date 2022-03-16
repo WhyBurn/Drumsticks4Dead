@@ -5,7 +5,8 @@ using UnityEngine;
 public abstract class HeldItem : MonoBehaviour
 {
     private bool held;
-    public GameObject FryedVersion;
+    public GameObject fryedVersion;
+    public float fryTime;
 
     public bool Held
     {

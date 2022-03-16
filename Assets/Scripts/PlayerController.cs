@@ -82,11 +82,7 @@ public class PlayerController : CharacterController
 
     public void RemoveHeldItem()
     {
-        if(heldItem != null)
-        {
-            Destroy(heldItem.gameObject);
-            heldItem = null;
-        }
+        heldItem = null;
     }
 
     public void GrabItem(HeldItem item)
