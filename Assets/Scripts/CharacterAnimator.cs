@@ -15,7 +15,7 @@ public class CharacterAnimator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (body.velocity.magnitude > 0)
+        if (body.velocity.magnitude > 0.1f)
         {
             Vector2 direction = body.velocity.normalized;
             float angle = Mathf.Acos(direction.y) * Mathf.Rad2Deg;
