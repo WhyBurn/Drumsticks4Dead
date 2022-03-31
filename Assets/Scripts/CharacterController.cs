@@ -39,7 +39,7 @@ public class CharacterController : MonoBehaviour
             vertiaclDifference = Mathf.Max(vertiaclDifference, maxAcceleration * -1);
         }
         body.AddForce(new Vector2(horizontalDifference, vertiaclDifference), ForceMode2D.Force);
-        TryInteract();
+        TryAction();
     }
 
     virtual public Vector2 GetMovement()
@@ -47,7 +47,8 @@ public class CharacterController : MonoBehaviour
         return new Vector2(0, 0);
     }
 
-    virtual public void TryInteract()
+    //Make virtual so that it can be overridden by anything (but leave blank because the base controller doesn't do anything)
+    virtual public void TryAction()
     {
 
     }
