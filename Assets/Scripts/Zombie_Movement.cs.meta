@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f6911f7ea6d7d4d5297af561e9a883a9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - TestFreezer: {fileID: 6204326979869181372, guid: b206077902381488981379c29e4bd67e,
+      type: 3}
+  - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
