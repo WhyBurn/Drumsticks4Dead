@@ -65,3 +65,11 @@ The following packages were updated:
   com.unity.ide.visualstudio from version 2.0.12 to 2.0.14
   com.unity.textmeshpro from version 2.1.6 to 3.0.6
   com.unity.timeline from version 1.2.18 to 1.4.8
+
+=== Mon Apr  4 16:13:11 2022
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.collab-proxy from version 1.15.7 to 1.15.12
