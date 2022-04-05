@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Zombie_Movement : MonoBehaviour
+public class Zombie_Movement : CharacterController
 {
     [SerializeField]
     public float speed = 12.0f;
@@ -11,17 +11,18 @@ public class Zombie_Movement : MonoBehaviour
     public Transform target;
 
     // Start is called before the first frame update
-    void Start()
+    public override void OnStart()
     {
         
          target = TestFreezer.transform;
     }
 
     // Update is called once per frame
-    void Update()
+    public override Vector2 GetMovement()
     {
-      //  transform.LookAt(target);
-        float step = speed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+
+        // float step = speed * Time.deltaTime;
+        //  transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+        return (target.position - transform.position).normalized;
     }
 }

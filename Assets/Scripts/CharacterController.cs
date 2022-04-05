@@ -13,6 +13,12 @@ public class CharacterController : MonoBehaviour
     void Start()
     {
         body = gameObject.GetComponent<Rigidbody2D>();
+        OnStart();
+    }
+
+    public virtual void OnStart()
+    {
+
     }
 
     // Update is called once per frame

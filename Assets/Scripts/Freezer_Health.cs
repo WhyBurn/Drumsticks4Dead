@@ -12,6 +12,7 @@ public class Freezer_Health : MonoBehaviour
     private double damageDelt = 1.0;
     [SerializeField]
     private float damageTimer = 1.0f;
+    List<GameObject> collidedObjects = new List<GameObject>();
 
 
     // Start is called before the first frame update
@@ -33,14 +34,21 @@ public class Freezer_Health : MonoBehaviour
     {
         if (collision.gameObject.tag == "Zombie" && damageTimer <= 0)
         {
+           
+            if (!collidedObjects.Contains(collision.gameObject))
+            {
+                collidedObjects.Add(collision.gameObject);
+            }
             freezerTakeDamage();
+
         }
     }
 
     void freezerTakeDamage()
     {
+        int num = collidedObjects.Count;
         damageTimer = 1.0f;
-        currentHealth -= damageDelt;
+        currentHealth -= (num * damageDelt);
         freezerDestroyed();
     }
 

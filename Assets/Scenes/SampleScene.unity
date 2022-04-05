@@ -131,6 +131,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4477298077877641950, guid: 067e3dd9ece734990b1745faf32c6645,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: -4477298077877641950, guid: 067e3dd9ece734990b1745faf32c6645,
+        type: 3}
+      propertyPath: maxAcceleration
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 3692384329559140262, guid: 067e3dd9ece734990b1745faf32c6645,
         type: 3}
       propertyPath: m_Name
@@ -139,7 +149,7 @@ PrefabInstance:
     - target: {fileID: 6802600871709797392, guid: 067e3dd9ece734990b1745faf32c6645,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6802600871709797392, guid: 067e3dd9ece734990b1745faf32c6645,
         type: 3}
@@ -328,7 +338,7 @@ Transform:
   m_Children:
   - {fileID: 1579020045}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &75626038
 CircleCollider2D:
@@ -539,7 +549,7 @@ Transform:
   m_LocalScale: {x: 50, y: 50, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1397204469
 GameObject:
@@ -583,7 +593,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1579020044
 GameObject:
@@ -752,7 +762,7 @@ Transform:
   m_Children:
   - {fileID: 1842608391}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2052292479
 MonoBehaviour:
@@ -886,6 +896,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TestFreezer
+      objectReference: {fileID: 0}
+    - target: {fileID: 6204326979869181372, guid: b206077902381488981379c29e4bd67e,
+        type: 3}
+      propertyPath: m_TagString
+      value: Freezer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b206077902381488981379c29e4bd67e, type: 3}
