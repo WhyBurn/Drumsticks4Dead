@@ -11,13 +11,13 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - PlayerProjectile
+  - Table
+  - Wall
+  - Zombie
+  - ZombieProjectile
+  - Door
   - 
   - 
   - 
