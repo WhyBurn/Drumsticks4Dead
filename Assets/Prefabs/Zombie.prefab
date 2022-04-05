@@ -99,7 +99,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 100
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -136,7 +136,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6911f7ea6d7d4d5297af561e9a883a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  maxSpeed: 30
+  maxAcceleration: 28
   TestFreezer: {fileID: 6204326979869181372, guid: b206077902381488981379c29e4bd67e,
     type: 3}
   target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e, type: 3}
