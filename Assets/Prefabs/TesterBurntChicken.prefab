@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5528245766326053793}
   - component: {fileID: 3716215229081932867}
   - component: {fileID: 8878159564968079623}
+  - component: {fileID: -1846387992387841254}
   m_Layer: 0
   m_Name: TesterBurntChicken
   m_TagString: Untagged
@@ -148,7 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fryedVersion: {fileID: 0}
   fryTime: 0
-  throwSpeed: 50
+  throwSpeed: 150
   lastingTime: 10
 --- !u!114 &8878159564968079623
 MonoBehaviour:
@@ -163,3 +164,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
+--- !u!114 &-1846387992387841254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7909413318346378150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4954ed2e84acfe741adf142bc99dcb35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
