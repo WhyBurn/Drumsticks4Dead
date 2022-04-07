@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Zombie
   - Freezer
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -13,13 +14,13 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - PlayerProjectile
+  - Table
+  - Wall
+  - Zombie
+  - ZombieProjectile
+  - Door
   - 
   - 
   - 
