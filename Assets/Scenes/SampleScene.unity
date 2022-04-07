@@ -131,16 +131,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -4477298077877641950, guid: 067e3dd9ece734990b1745faf32c6645,
-        type: 3}
-      propertyPath: maxSpeed
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: -4477298077877641950, guid: 067e3dd9ece734990b1745faf32c6645,
-        type: 3}
-      propertyPath: maxAcceleration
-      value: 1000
-      objectReference: {fileID: 0}
     - target: {fileID: 3692384329559140262, guid: 067e3dd9ece734990b1745faf32c6645,
         type: 3}
       propertyPath: m_Name
@@ -470,6 +460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbac4df908d2a0f4b8887a43546d6d69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: {fileID: 0}
 --- !u!58 &532558428
 CircleCollider2D:
   m_ObjectHideFlags: 0
