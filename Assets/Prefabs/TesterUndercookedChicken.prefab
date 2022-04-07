@@ -149,7 +149,7 @@ MonoBehaviour:
   fryedVersion: {fileID: 9200299570921511051, guid: 3b21e948c7a3a6f4bbe36b93cc553716,
     type: 3}
   fryTime: 3
-  throwSpeed: 50
+  throwSpeed: 150
   lastingTime: 10
 --- !u!114 &6653234988613776989
 MonoBehaviour:
@@ -164,3 +164,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
+--- !u!114 &5423874883559447444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5378256097514163452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4954ed2e84acfe741adf142bc99dcb35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
