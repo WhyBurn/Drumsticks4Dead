@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class FryerInteractable : Interactable
 {
+    //For our timer
+    public GameObject timer;
+
     private HeldItem fryingItem;
     private float fryTime;
-
+    private TextMesh timerText;
+    private MeshRenderer timerMesh;
     public override void OnStart()
     {
         fryingItem = null;
         fryTime = 0;
+
+        timerText = timer.GetComponent<TextMesh>();
+        timerMesh = timer.GetComponent<MeshRenderer>();
     }
 
     public override void OnUpdate()
@@ -19,6 +26,7 @@ public class FryerInteractable : Interactable
         {
             if (fryingItem.fryedVersion != null)
             {
+                timerText.text = ((int)(fryingItem.fryTime - fryTime) + 1).ToString();
                 fryTime += Time.deltaTime;
                 if (fryTime >= fryingItem.fryTime)
                 {
@@ -28,7 +36,14 @@ public class FryerInteractable : Interactable
                     fryTime = 0;
                 }
             }
+            else
+                //If we're here, we know our chicken has been overcooked.
+                timerText.text = ">:(";
             fryingItem.transform.position = transform.position;
+        }
+        else
+        {
+            timerText.text = "";
         }
     }
 
@@ -37,6 +52,7 @@ public class FryerInteractable : Interactable
         PlayerController controller = playerObject.GetComponent<PlayerController>();
         if (fryingItem == null)
         {
+            timerText.text = "";
             if (controller.Held != null && controller.Held.fryedVersion != null)
             {
                 fryingItem = controller.Held;
