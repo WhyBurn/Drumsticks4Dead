@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 5528245766326053793}
   - component: {fileID: 3716215229081932867}
   - component: {fileID: 8878159564968079623}
+  - component: {fileID: -1846387992387841254}
+  - component: {fileID: 7262339673554912800}
   m_Layer: 7
   m_Name: TesterBurntChicken
   m_TagString: Untagged
@@ -173,5 +175,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4954ed2e84acfe741adf142bc99dcb35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7262339673554912800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7909413318346378150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c67392e3bcdbcc2408709b0b8b6e3be3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

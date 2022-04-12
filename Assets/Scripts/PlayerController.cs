@@ -29,6 +29,7 @@ public class PlayerController : CharacterController
         }
         TryInteract();
         TryThrow();
+        TryDrop();
     }
 
     //Throwing logic
@@ -104,6 +105,15 @@ public class PlayerController : CharacterController
                 heldItem = Instantiate(itemPrefab).GetComponent<HeldItem>();
                 heldItem.Held = true;
             }
+        }
+    }
+
+    public void TryDrop()
+    {
+        if(Inputs.playerDropDown[playerNumber] && heldItem != null)
+        {
+            heldItem.Held = false;
+            heldItem = null;
         }
     }
 }

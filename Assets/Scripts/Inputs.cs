@@ -11,4 +11,7 @@ public static class Inputs
     public static bool[] playerThrowDown;
     public static bool[] playerThrowHold;
     public static bool[] playerThrowUp;
+    public static bool[] playerDropDown;
+    public static bool[] playerDropHold;
+    public static bool[] playerDropUp;
 }

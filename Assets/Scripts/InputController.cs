@@ -15,6 +15,9 @@ public class InputController : MonoBehaviour
         Inputs.playerThrowDown = new bool[numPlayers];
         Inputs.playerThrowHold = new bool[numPlayers];
         Inputs.playerThrowUp = new bool[numPlayers];
+        Inputs.playerDropDown = new bool[numPlayers];
+        Inputs.playerDropHold = new bool[numPlayers];
+        Inputs.playerDropUp = new bool[numPlayers];
         Inputs.playerMovements = new Vector2[numPlayers];
     }
 
@@ -30,6 +33,9 @@ public class InputController : MonoBehaviour
             Inputs.playerThrowDown[i] = !Inputs.playerThrowHold[i] && Input.GetAxis("Throw" + i) > 0;
             Inputs.playerThrowUp[i] = Inputs.playerThrowHold[i] && Input.GetAxis("Throw" + i) == 0;
             Inputs.playerThrowHold[i] = Input.GetAxis("Throw" + i) > 0;
+            Inputs.playerDropDown[i] = !Inputs.playerThrowHold[i] && Input.GetAxis("Drop" + i) > 0;
+            Inputs.playerDropDown[i] = Inputs.playerDropHold[i] && Input.GetAxis("Drop" + i) == 0;
+            Inputs.playerDropDown[i] = Input.GetAxis("Drop" + i) > 0;
         }
     }
 }
