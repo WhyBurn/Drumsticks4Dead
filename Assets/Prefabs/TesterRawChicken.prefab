@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8920077310288272820}
   - component: {fileID: 2998155171560359229}
   - component: {fileID: 1397615048070811623}
+  - component: {fileID: -6468262127539562182}
   m_Layer: 7
   m_Name: TesterRawChicken
   m_TagString: Untagged
@@ -148,3 +149,15 @@ MonoBehaviour:
   fryedVersion: {fileID: 5378256097514163452, guid: 33a8093016bf80f48b0f4c486fee1b41,
     type: 3}
   fryTime: 2
+--- !u!114 &-6468262127539562182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 639565588069836090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c67392e3bcdbcc2408709b0b8b6e3be3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
