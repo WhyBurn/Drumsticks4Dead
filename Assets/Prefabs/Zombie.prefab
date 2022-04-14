@@ -123,7 +123,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.1
 --- !u!114 &-4477298077877641950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 30
   maxAcceleration: 28
+  speed: 12
   TestFreezer: {fileID: 6204326979869181372, guid: b206077902381488981379c29e4bd67e,
     type: 3}
   target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e, type: 3}
