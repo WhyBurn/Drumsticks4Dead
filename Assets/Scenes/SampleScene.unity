@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 72786774}
   m_Layer: 0
   m_Name: Square (1)
-  m_TagString: Untagged
+  m_TagString: SpawnPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -654,8 +654,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4765af1e4cc741abb8aa2e19d5dfa9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Spawnpoints: []
-  m_EnemyPrefab: {fileID: 0}
+  m_zombie: {fileID: 3692384329559140262, guid: 067e3dd9ece734990b1745faf32c6645,
+    type: 3}
+  m_spawnPoints:
+  - {fileID: 2047089503}
+  - {fileID: 72786773}
 --- !u!212 &1308873169
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -819,7 +822,7 @@ MonoBehaviour:
   currentHealth: 0
   maxHealth: 100
   damageDelt: 1
-  damageTimer: 0.5
+  damageTimer: 1
 --- !u!1 &1842608390
 GameObject:
   m_ObjectHideFlags: 0
@@ -862,7 +865,7 @@ GameObject:
   - component: {fileID: 2047089504}
   m_Layer: 0
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: SpawnPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

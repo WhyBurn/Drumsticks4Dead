@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class SpawnZombs : MonoBehaviour
 {
+    public GameObject m_zombie;
     public Transform[] m_spawnPoints;
 
     // Start is called before the first frame update
     void Start()
     {
+        SpawnNewZombie();
+        SpawnNewZombie();
         SpawnNewZombie();
     }
 
@@ -19,9 +22,6 @@ public class SpawnZombs : MonoBehaviour
     }
 
     void SpawnNewZombie() {
-        int randomIndex = Random.Range(0, m_spawnPoints.Length);
-        Transform spawnPoint = m_spawnPoints[randomIndex];
-        
-        Instantiate(Zombie.prefab.meta, spawnPoint.position, spawnPoint.rotation);
+        Instantiate(m_zombie, m_spawnPoints[0].transform.position, Quaternion.identity);
     }
 }
