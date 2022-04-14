@@ -22,6 +22,8 @@ public class SpawnZombs : MonoBehaviour
     }
 
     void SpawnNewZombie() {
+        // int randomSpot = Random.Next(0, 2);
         Instantiate(m_zombie, m_spawnPoints[0].transform.position, Quaternion.identity);
+        Instantiate(m_zombie, m_spawnPoints[1].transform.position, Quaternion.identity);
     }
 }
