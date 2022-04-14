@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 75626034}
   - component: {fileID: 75626033}
   - component: {fileID: 75626038}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TestPlayer2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1234,7 +1234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1579020045}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ProjEmitter
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -1583,7 +1583,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1842608391}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ProjEmitter
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -1618,7 +1618,7 @@ GameObject:
   - component: {fileID: 2052292480}
   - component: {fileID: 2052292479}
   - component: {fileID: 2052292482}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TestPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
