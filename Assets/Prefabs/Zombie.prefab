@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7978047008761524310}
   - component: {fileID: -4477298077877641950}
   - component: {fileID: -4188948676147436253}
+  - component: {fileID: -2294860122837232516}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Zombie
@@ -123,7 +124,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.1
+  m_Radius: 0.2
 --- !u!114 &-4477298077877641950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +139,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 30
   maxAcceleration: 28
+  maxHealth: 2
+  team: 1
   speed: 12
   TestFreezer: {fileID: 6204326979869181372, guid: b206077902381488981379c29e4bd67e,
     type: 3}
@@ -154,3 +157,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14c8662fbdf55fc4fb1a95cd8367039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2294860122837232516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3692384329559140262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398efa849d6e34e42a7c2c896083d3e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attachedCharacter: {fileID: -4477298077877641950}

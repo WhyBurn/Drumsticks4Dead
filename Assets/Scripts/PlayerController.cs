@@ -62,7 +62,7 @@ public class PlayerController : CharacterController
                 if (!foundObject || hit.distance < closest.distance)
                 {
                     HeldItem item = hit.transform.gameObject.GetComponent<HeldItem>();
-                    if (hit.transform.gameObject != gameObject && (item == null || !item.Held))
+                    if (hit.transform.gameObject != gameObject && (item == null || (!item.Held && !item.Thrown)))
                     {
                         closest = hit;
                         foundObject = true;

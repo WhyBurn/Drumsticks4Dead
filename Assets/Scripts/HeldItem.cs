@@ -7,11 +7,18 @@ public abstract class HeldItem : MonoBehaviour
     private bool held;
     public GameObject fryedVersion;
     public float fryTime;
+    private bool thrown;
 
     public bool Held
     {
         get { return (held); }
         set { held = value; }
+    }
+
+    public bool Thrown
+    {
+        get { return (thrown); }
+        set { thrown = value; }
     }
 
     // Start is called before the first frame update
