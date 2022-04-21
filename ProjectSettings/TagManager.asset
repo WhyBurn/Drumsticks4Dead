@@ -7,11 +7,12 @@ TagManager:
   - Zombie
   - Freezer
   - Wall
+  - Appliance
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Appliance
   - Water
   - UI
   - Player
