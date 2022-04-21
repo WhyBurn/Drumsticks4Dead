@@ -7,6 +7,7 @@ public class PlayerController : CharacterController
 {
     public int playerNumber;
     public float interactDistance;
+    public float interactArc;
     public Transform projectileLoc;
     private HeldItem heldItem;
 
@@ -57,15 +58,18 @@ public class PlayerController : CharacterController
         {
             bool foundObject = false;
             RaycastHit2D closest = default;
-            foreach (var hit in Physics2D.RaycastAll(transform.position, transform.up, interactDistance))
+            for (float angle = interactArc / -2; angle <= interactArc / 2; angle += 1)
             {
-                if (!foundObject || hit.distance < closest.distance)
+                foreach (var hit in Physics2D.RaycastAll(transform.position, Quaternion.Euler(0, 0, angle) * transform.up, interactDistance))
                 {
-                    HeldItem item = hit.transform.gameObject.GetComponent<HeldItem>();
-                    if (hit.transform.gameObject != gameObject && (item == null || !item.Held))
+                    if (!foundObject || hit.distance < closest.distance)
                     {
-                        closest = hit;
-                        foundObject = true;
+                        HeldItem item = hit.transform.gameObject.GetComponent<HeldItem>();
+                        if (hit.transform.gameObject != gameObject && (item == null || (!item.Held && !item.Thrown)))
+                        {
+                            closest = hit;
+                            foundObject = true;
+                        }
                     }
                 }
             }

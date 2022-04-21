@@ -152,8 +152,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 50
   maxAcceleration: 45
+  maxHealth: 5
+  team: 0
   playerNumber: 0
   interactDistance: 12
+  interactArc: 30
   projectileLoc: {fileID: 5648255289750749139}
 --- !u!114 &5648255290077936043
 MonoBehaviour:

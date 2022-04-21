@@ -7,12 +7,16 @@ public class CharacterController : MonoBehaviour
 {
     public float maxSpeed;
     public float maxAcceleration;
+    public int maxHealth;
+    public int team;
 
+    private int health;
     private Rigidbody2D body;
     // Start is called before the first frame update
     void Start()
     {
         body = gameObject.GetComponent<Rigidbody2D>();
+        health = maxHealth;
         OnStart();
     }
 
@@ -57,5 +61,19 @@ public class CharacterController : MonoBehaviour
     virtual public void TryAction()
     {
 
+    }
+
+    public void TakeDamage(int d)
+    {
+        health -= d;
+        if(health <= 0)
+        {
+            Die();
+        }
+    }
+
+    public virtual void Die()
+    {
+        Destroy(gameObject);
     }
 }

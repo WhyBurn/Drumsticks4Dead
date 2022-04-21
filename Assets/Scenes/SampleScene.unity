@@ -323,6 +323,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 50
   maxAcceleration: 45
+  maxHealth: 0
+  team: 0
   playerNumber: 1
   interactDistance: 12
   projectileLoc: {fileID: 1579020045}
@@ -708,7 +710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 0
-  maxHealth: 100
+  maxHealth: 10000
   damageDelt: 1
   damageTimer: 1
   zombiesAttacking: 0
@@ -938,6 +940,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 50
   maxAcceleration: 45
+  maxHealth: 0
+  team: 0
   playerNumber: 0
   interactDistance: 12
   projectileLoc: {fileID: 1842608391}

@@ -17,7 +17,8 @@ public class ChickenItem : HeldItem
     public override HeldItem Throw()
     {
         rb.AddForce(rb.transform.up * throwSpeed, ForceMode2D.Impulse);
-
+        GetComponent<Projectile>().Team = 0;
+        Thrown = true;
         //Destroy this projectile after a few seconds
         Destroy(gameObject, lastingTime);
 
