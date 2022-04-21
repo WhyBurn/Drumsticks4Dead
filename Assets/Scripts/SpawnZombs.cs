@@ -6,24 +6,25 @@ public class SpawnZombs : MonoBehaviour
 {
     public GameObject m_zombie;
     public Transform[] m_spawnPoints;
+    private float nextSpawn = 0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        SpawnNewZombie();
-        SpawnNewZombie();
-        SpawnNewZombie();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(nextSpawn <= Time.time) {
+            nextSpawn = Time.time + 10f;
+            SpawnNewZombie();
+        }
     }
 
     void SpawnNewZombie() {
-        // int randomSpot = Random.Next(0, 2);
-        Instantiate(m_zombie, m_spawnPoints[0].transform.position, Quaternion.identity);
-        Instantiate(m_zombie, m_spawnPoints[1].transform.position, Quaternion.identity);
+        int randomSpot = Random.Range(0, m_spawnPoints.Length);
+        Instantiate(m_zombie, m_spawnPoints[randomSpot].transform.position, Quaternion.identity);
     }
 }
