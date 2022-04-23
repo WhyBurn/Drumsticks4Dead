@@ -34,6 +34,11 @@ public class FryerInteractable : Interactable
                     Destroy(fryingItem.gameObject);
                     fryingItem = fried.GetComponent<HeldItem>();
                     fryTime = 0;
+                    GameController controller = Data.gameController;
+                    if (controller != null)
+                    {
+                        controller.SpawnItem(fried);
+                    }
                 }
             }
             else
