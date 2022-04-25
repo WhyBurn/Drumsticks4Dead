@@ -8,6 +8,7 @@ TagManager:
   - Freezer
   - Wall
   - SpawnPoint
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Zombie
   - ZombieProjectile
   - Door
-  - 
+  - Freezer
   - 
   - 
   - 
