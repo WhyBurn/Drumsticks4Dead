@@ -8,16 +8,6 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< HEAD
-  - component: {fileID: 6802600871709797392}
-  - component: {fileID: 2826178739727528833}
-  - component: {fileID: 4978441524510207336}
-  - component: {fileID: 7978047008761524310}
-  - component: {fileID: -4477298077877641950}
-  - component: {fileID: -4188948676147436253}
-  - component: {fileID: -2294860122837232516}
-  m_Layer: 0
-=======
   - component: {fileID: 3653106785939460849}
   - component: {fileID: 5471128766510239072}
   - component: {fileID: 3009312780940989321}
@@ -29,7 +19,6 @@ GameObject:
   - component: {fileID: 4949606565133932839}
   - component: {fileID: 9093350417498915148}
   m_Layer: 10
->>>>>>> julian'sbranchstayout_zombie_improvements
   m_Name: Zombie
   m_TagString: Zombie
   m_Icon: {fileID: 0}
@@ -44,13 +33,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6910839371883911495}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-<<<<<<< HEAD
-  m_LocalPosition: {x: -3.3157797, y: 3.1578958, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-=======
   m_LocalPosition: {x: 105.3, y: 12.8, z: 0}
   m_LocalScale: {x: 12, y: 15, z: 1}
->>>>>>> julian'sbranchstayout_zombie_improvements
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -142,13 +126,8 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-<<<<<<< HEAD
-  m_Radius: 1
---- !u!114 &-4477298077877641950
-=======
   m_Radius: 0.16
 --- !u!114 &3245038323452584899
->>>>>>> julian'sbranchstayout_zombie_improvements
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,25 +159,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14c8662fbdf55fc4fb1a95cd8367039a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< HEAD
---- !u!114 &-2294860122837232516
-=======
 --- !u!114 &1622079612804510219
->>>>>>> julian'sbranchstayout_zombie_improvements
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 3692384329559140262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398efa849d6e34e42a7c2c896083d3e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attachedCharacter: {fileID: -4477298077877641950}
-=======
   m_GameObject: {fileID: 6910839371883911495}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -291,4 +257,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   target: {fileID: 0}
->>>>>>> julian'sbranchstayout_zombie_improvements
