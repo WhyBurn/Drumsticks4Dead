@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3435958474139999038}
   - component: {fileID: 3435958474139999039}
   - component: {fileID: 3435958474139999032}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TestFryer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

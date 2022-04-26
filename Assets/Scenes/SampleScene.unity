@@ -124,6 +124,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+<<<<<<< HEAD
 --- !u!1001 &49272253
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -276,6 +277,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+=======
+>>>>>>> julian'sbranchstayout_zombie_improvements
 --- !u!1 &75626032
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,12 +525,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<< HEAD
   - component: {fileID: 1308873170}
   - component: {fileID: 1308873169}
   - component: {fileID: 1308873168}
   m_Layer: 0
   m_Name: Spawnpoints
   m_TagString: Untagged
+=======
+  - component: {fileID: 532558430}
+  - component: {fileID: 532558429}
+  - component: {fileID: 532558428}
+  - component: {fileID: 532558427}
+  m_Layer: 3
+  m_Name: TestFryer
+  m_TagString: Appliance
+>>>>>>> julian'sbranchstayout_zombie_improvements
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -615,8 +628,157 @@ Transform:
   - {fileID: 2047089503}
   - {fileID: 72786773}
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &545968220
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 28.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.5768162
+      objectReference: {fileID: 0}
+    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6204326979869181372, guid: b206077902381488981379c29e4bd67e,
+        type: 3}
+      propertyPath: m_Name
+      value: TestFreezer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b206077902381488981379c29e4bd67e, type: 3}
+--- !u!1001 &886922070
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 96.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 59.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6910839371883911495, guid: 3a2dadebe40844f038acaac2244ee05c,
+        type: 3}
+      propertyPath: m_Name
+      value: Zombie (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9093350417498915148, guid: 3a2dadebe40844f038acaac2244ee05c,
+        type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1618996888}
+    m_RemovedComponents:
+    - {fileID: 4949606565133932839, guid: 3a2dadebe40844f038acaac2244ee05c, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 3a2dadebe40844f038acaac2244ee05c, type: 3}
+>>>>>>> julian'sbranchstayout_zombie_improvements
 --- !u!1 &1397204469
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,29 +853,138 @@ Transform:
   m_Father: {fileID: 75626037}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1596672471 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6204326979869181372, guid: b206077902381488981379c29e4bd67e,
+--- !u!4 &1618996888 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
     type: 3}
-  m_PrefabInstance: {fileID: 6204326981158489195}
+  m_PrefabInstance: {fileID: 545968220}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1596672476
+--- !u!1 &1772780922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1772780924}
+  - component: {fileID: 1772780923}
+  m_Layer: 0
+  m_Name: A*
+  m_TagString: Freezer
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1772780923
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1596672471}
+  m_GameObject: {fileID: 1772780922}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f6b5a8c1f4904747a88ac02e06ea4c9, type: 3}
+  m_Script: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   currentHealth: 0
   maxHealth: 10000
   damageDelt: 1
   damageTimer: 1
   zombiesAttacking: 0
+=======
+  version: 1
+  data:
+    dataString: UEsDBBQAAAgIAACAn+tZJxY7ZAIAACAFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1v4jAQ/SvI5wUlgKDZ2y5QugcKKlv1kouJJ8TCsSPb4aviv+/YSUjKqifMmzczb57H+SRcmgISq/RSc7ZSDMjPHnFn8qPXBl/gTPdKbvkVGs4HZzZzJOo5b9RyhXjo0ozKwWqe/JJ74cgBgqXkqdL5gu1hpow1CKdUGMCQVtZlS4Q+e+SMP/3IpVzwNJy60xVPUdC74TEBaUG31IbY0CpWKRNB8wKYk9ySR+NoMB7XGWE0HUwnni5xqJoZDqKha6OE4KYWReyl8ENviww0uKkZpzijFxIMogkiGfB9Zp3kbvo6TQ3YWp+mlznX6FZVl/xWlYU5NYdK5JGK0qsIokpZVXX1H6Ef+nCqVf7SNA4D18RmPDm80UtCje2Y3IXnrfjQm3Wi4kB3Aj4ykK9qqVUpGQatLl1qaWA4b//eZ5tlkBxavJL6AJbF91flZrj58c8zwfOd93JcAVuhvOV+EUDj/fxBwX5NTF0CUafi3cBfuu/uUx145tpYDNVTSidvp0rtqGThPXPTlHamtATdrVCApMJeNljHPl7iQ+z7rGfqnk7dvY41L+IhxcMtPwgeQht1ut+WydRpBSZbl1ZwCa3VLvCKRs2UlNWOma9Bl7UtdUqTTta+5OzrahG2G09YMN5Nol06GqWjPibgy6E0msDTE4RT4nePSxyTik2ls3YHb022xSXuWfNB6S01Lfy6M01PS37NVUcfl6naJhpArqsKjUMGNDbBt8kWjKM/W7CWS3/f5DMmQiUHYPG9UOwnXZytpnFbJSYFPyrrkJjM/BckJg6+7/JGw5HDyTVvit3I7R9QSwMEFAAACAgAAICf63kEtHRtAAAAeAAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw0TPSMzTXUVBKL0osyCgGihiCOKWZKSB2tFJKkolZioFJkpllUpqxcZqxbmJyqrGJZWKipVmqhUWqoblSLFB9SWVBql9ibipET0BiSUZaZl5KZl66nntRZoo7yGil2FoAUEsBAi0AFAAACAgAAICf61knFjtkAgAAIAUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAICf63kEtHRtAAAAeAAAAAkAJAAAAAAAAAAAAAAAsQIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAABpAwAAAAA=
+    upgradeData: 
+    file_cachedStartup: {fileID: 0}
+    data_cachedStartup: 
+    cacheStartup: 0
+  showNavGraphs: 1
+  showUnwalkableNodes: 1
+  debugMode: 0
+  debugFloor: 0
+  debugRoof: 1
+  manualDebugFloorRoof: 0
+  showSearchTree: 0
+  unwalkableNodeDebugSize: 0.3
+  logPathResults: 1
+  maxNearestNodeDistance: 200
+  scanOnStartup: 1
+  fullGetNearestSearch: 0
+  prioritizeGraphs: 0
+  prioritizeGraphsLimit: 1
+  colorSettings:
+    _SolidColor: {r: 0.11764706, g: 0.4, b: 0.7882353, a: 0.9}
+    _UnwalkableNode: {r: 1, g: 0, b: 0, a: 0.5}
+    _BoundsHandles: {r: 0.29, g: 0.454, b: 0.741, a: 0.9}
+    _ConnectionLowLerp: {r: 0, g: 1, b: 0, a: 0.5}
+    _ConnectionHighLerp: {r: 1, g: 0, b: 0, a: 0.5}
+    _MeshEdgeColor: {r: 0, g: 0, b: 0, a: 0.5}
+    _AreaColors:
+    - {r: 0, g: 0, b: 0, a: 0}
+  tagNames:
+  - Basic Ground
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  - 21
+  - 22
+  - 23
+  - 24
+  - 25
+  - 26
+  - 27
+  - 28
+  - 29
+  - 30
+  - 31
+  heuristic: 2
+  heuristicScale: 1
+  threadCount: 1
+  maxFrameTime: 10
+  batchGraphUpdates: 0
+  graphUpdateBatchingInterval: 0.2
+  euclideanEmbedding:
+    mode: 0
+    seed: 0
+    pivotPointRoot: {fileID: 0}
+    spreadOutCount: 1
+  showGraphs: 1
+--- !u!4 &1772780924
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772780922}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -134.5, y: -8.42, z: -64.50276}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+>>>>>>> julian'sbranchstayout_zombie_improvements
 --- !u!1 &1842608390
 GameObject:
   m_ObjectHideFlags: 0
@@ -982,75 +1253,94 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 5.2
---- !u!1001 &6204326981158489195
+--- !u!1001 &7842385669023341360
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+    - target: {fileID: 2956645489134033858, guid: 3a2dadebe40844f038acaac2244ee05c,
         type: 3}
+<<<<<<< HEAD
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
         type: 3}
       propertyPath: m_LocalPosition.x
+=======
+      propertyPath: m_Enabled
+>>>>>>> julian'sbranchstayout_zombie_improvements
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 105.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 20
+      value: 12.8
       objectReference: {fileID: 0}
-    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.5768162
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
         type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
         type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e,
+    - target: {fileID: 3653106785939460849, guid: 3a2dadebe40844f038acaac2244ee05c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     - target: {fileID: 6204326979869181372, guid: b206077902381488981379c29e4bd67e,
+=======
+    - target: {fileID: 6910839371883911495, guid: 3a2dadebe40844f038acaac2244ee05c,
+>>>>>>> julian'sbranchstayout_zombie_improvements
         type: 3}
       propertyPath: m_Name
-      value: TestFreezer
+      value: Zombie
       objectReference: {fileID: 0}
-    - target: {fileID: 6204326979869181372, guid: b206077902381488981379c29e4bd67e,
+    - target: {fileID: 9093350417498915148, guid: 3a2dadebe40844f038acaac2244ee05c,
         type: 3}
+<<<<<<< HEAD
       propertyPath: m_TagString
       value: Freezer
       objectReference: {fileID: 0}
@@ -1265,3 +1555,11 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+=======
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1618996888}
+    m_RemovedComponents:
+    - {fileID: 4949606565133932839, guid: 3a2dadebe40844f038acaac2244ee05c, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 3a2dadebe40844f038acaac2244ee05c, type: 3}
+>>>>>>> julian'sbranchstayout_zombie_improvements

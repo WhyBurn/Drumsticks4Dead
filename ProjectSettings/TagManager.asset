@@ -8,11 +8,12 @@ TagManager:
   - Freezer
   - Wall
   - SpawnPoint
+  - Appliance
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Appliance
   - Water
   - UI
   - Player
