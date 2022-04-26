@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -4477298077877641950}
   - component: {fileID: -4188948676147436253}
   - component: {fileID: -2294860122837232516}
+  - component: {fileID: 6782784817794098203}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Zombie
@@ -115,7 +116,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3692384329559140262}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -123,7 +124,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.2
+  m_Radius: 1.96
 --- !u!114 &-4477298077877641950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,9 +142,8 @@ MonoBehaviour:
   maxHealth: 2
   team: 1
   speed: 12
-  TestFreezer: {fileID: 6204326979869181372, guid: b206077902381488981379c29e4bd67e,
-    type: 3}
-  target: {fileID: 6204326979869181360, guid: b206077902381488981379c29e4bd67e, type: 3}
+  TestFreezer: {fileID: 0}
+  target: {fileID: 0}
 --- !u!114 &-4188948676147436253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,3 +169,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attachedCharacter: {fileID: -4477298077877641950}
+--- !u!70 &6782784817794098203
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3692384329559140262}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 3.43, y: 7.97}
+  m_Direction: 0
