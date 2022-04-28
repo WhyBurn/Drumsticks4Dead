@@ -21,6 +21,7 @@ public class Freezer_Health : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        Data.gameLost = false;
     }
 
     // Update is called once per frame
@@ -69,8 +70,7 @@ public class Freezer_Health : MonoBehaviour
     {
         if (currentHealth < 1)
         {
-            Debug.Log("GameOver");
-            Time.timeScale = 0;
+            Data.gameLost = true;
         }
     }
 }

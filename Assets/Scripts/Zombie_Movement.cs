@@ -14,15 +14,20 @@ public class Zombie_Movement : CharacterController
     public override void OnStart()
     {
         
-         target = TestFreezer.transform;
+       //  target = TestFreezer.transform;
     }
 
     // Update is called once per frame
     public override Vector2 GetMovement()
     {
-
+        target = TestFreezer.transform;
         // float step = speed * Time.deltaTime;
         //  transform.position = Vector3.MoveTowards(transform.position, target.position, step);
         return (target.position - transform.position).normalized;
+    }
+
+    public override void Die()
+    {
+        Data.deletedZombies.Add(gameObject);
     }
 }

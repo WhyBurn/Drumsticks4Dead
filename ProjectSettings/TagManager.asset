@@ -8,11 +8,13 @@ TagManager:
   - Freezer
   - Wall
   - SpawnPoint
+  - Appliance
+  - Projectile
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Appliance
   - Water
   - UI
   - Player
@@ -22,7 +24,7 @@ TagManager:
   - Zombie
   - ZombieProjectile
   - Door
-  - 
+  - FloppyDoor
   - 
   - 
   - 

@@ -108,6 +108,7 @@ public class PlayerController : CharacterController
             {
                 heldItem = Instantiate(itemPrefab).GetComponent<HeldItem>();
                 heldItem.Held = true;
+                Data.spawnedItems.Add(heldItem.gameObject);
             }
         }
     }

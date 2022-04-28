@@ -71,12 +71,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e2b71bea5d98b7a48810a8d994e59bce, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6d8470f2cdb6d46c091503c5f53a31f0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 10.4, y: 10.4}
+  m_Size: {x: 10.74, y: 11.74}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -189,12 +189,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e2b71bea5d98b7a48810a8d994e59bce, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6d8470f2cdb6d46c091503c5f53a31f0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 10.4, y: 10.4}
+  m_Size: {x: 10.74, y: 11.74}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -239,7 +239,7 @@ MonoBehaviour:
   team: 0
   playerNumber: 0
   interactDistance: 12
-  interactArc: 30
+  interactArc: 100
   projectileLoc: {fileID: 5648255289750749139}
 --- !u!114 &5648255290077936043
 MonoBehaviour:
