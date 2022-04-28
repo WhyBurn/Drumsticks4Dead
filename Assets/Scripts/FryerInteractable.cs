@@ -11,6 +11,11 @@ public class FryerInteractable : Interactable
     private float fryTime;
     private TextMesh timerText;
     private MeshRenderer timerMesh;
+
+    public AudioSource chickenSpeaker;
+    public AudioSource fryerSpeaker;
+    public AudioClip overcooked;
+    public AudioClip cooked;
     public override void OnStart()
     {
         fryingItem = null;
@@ -18,12 +23,15 @@ public class FryerInteractable : Interactable
 
         timerText = timer.GetComponent<TextMesh>();
         timerMesh = timer.GetComponent<MeshRenderer>();
+
+        
     }
 
     public override void OnUpdate()
     {
         if(fryingItem != null)
         {
+            fryerSpeaker.mute = false;
             if (fryingItem.fryedVersion != null)
             {
                 timerText.text = ((int)(fryingItem.fryTime - fryTime) + 1).ToString();
@@ -38,13 +46,18 @@ public class FryerInteractable : Interactable
                 }
             }
             else
+            {
                 //If we're here, we know our chicken has been overcooked.
                 timerText.text = ">:(";
+                
+            }
+                
             fryingItem.transform.position = transform.position;
         }
         else
         {
             timerText.text = "";
+            fryerSpeaker.mute = true;
         }
     }
 
