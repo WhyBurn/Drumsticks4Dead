@@ -26,10 +26,6 @@ public class SpawnZombs : MonoBehaviour
     void SpawnNewZombie() {
         int randomSpot = Random.Range(0, m_spawnPoints.Length);
         GameObject zombieObject = Instantiate(m_zombie, m_spawnPoints[randomSpot].transform.position, Quaternion.identity);
-        GameController controller = Data.gameController;
-        if (controller != null)
-        {
-            controller.SpawnZombie(zombieObject);
-        }
+        Data.spawnedZombies.Add(zombieObject);
     }
 }

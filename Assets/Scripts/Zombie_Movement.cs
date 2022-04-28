@@ -25,4 +25,9 @@ public class Zombie_Movement : CharacterController
         //  transform.position = Vector3.MoveTowards(transform.position, target.position, step);
         return (target.position - transform.position).normalized;
     }
+
+    public override void Die()
+    {
+        Data.deletedZombies.Add(gameObject);
+    }
 }

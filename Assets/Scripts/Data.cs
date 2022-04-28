@@ -4,7 +4,10 @@ using UnityEngine;
 
 public static class Data
 {
-    public static GameController gameController;
     public static bool doneSpawning;
     public static bool gameLost;
+    public static List<GameObject> spawnedZombies = new List<GameObject>();
+    public static List<GameObject> spawnedItems = new List<GameObject>();
+    public static List<GameObject> deletedItems = new List<GameObject>();
+    public static List<GameObject> deletedZombies = new List<GameObject>();
 }
