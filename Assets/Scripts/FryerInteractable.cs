@@ -31,9 +31,10 @@ public class FryerInteractable : Interactable
                 if (fryTime >= fryingItem.fryTime)
                 {
                     GameObject fried = Instantiate(fryingItem.fryedVersion);
-                    Destroy(fryingItem.gameObject);
+                    Data.deletedItems.Add(fryingItem.gameObject);
                     fryingItem = fried.GetComponent<HeldItem>();
                     fryTime = 0;
+                    Data.spawnedItems.Add(fried.gameObject);
                 }
             }
             else
