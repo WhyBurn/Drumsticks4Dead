@@ -1154,7 +1154,7 @@ GameObject:
   - component: {fileID: 1308873169}
   - component: {fileID: 1308873168}
   m_Layer: 3
-  m_Name: TestFryer
+  m_Name: ZombieSpawner
   m_TagString: Appliance
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1172,11 +1172,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4765af1e4cc741abb8aa2e19d5dfa9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_zombie: {fileID: 3692384329559140262, guid: 067e3dd9ece734990b1745faf32c6645,
+  m_zombie: {fileID: 6910839371883911495, guid: 3a2dadebe40844f038acaac2244ee05c,
     type: 3}
   m_spawnPoints:
   - {fileID: 2047089503}
-  - {fileID: 0}
 --- !u!212 &1308873169
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1914,7 +1913,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2052292476}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20, y: 0, z: 0}
+  m_LocalPosition: {x: -30, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1842608391}
