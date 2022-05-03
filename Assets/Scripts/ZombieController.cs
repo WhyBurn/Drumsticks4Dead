@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class ZombieController : CharacterController
 {
-    
+    public override void Die()
+    {
+        Data.deletedZombies.Add(gameObject);
+    }
 }
