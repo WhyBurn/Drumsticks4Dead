@@ -23,7 +23,7 @@ public class SpawnZombs : MonoBehaviour
     void Update()
     {
         nextSpawn += Time.deltaTime;
-        if(waveIndex < 0 || (waveIndex < spawningRound.waves.Length && zombiesFromWave >= spawningRound.waves[waveIndex].spawningObjects.Length)) {
+        if(waveIndex < 0 || (waveIndex < spawningRound.waves.Length - 1 && zombiesFromWave >= spawningRound.waves[waveIndex].spawningObjects.Length)) {
             if(nextSpawn >= spawningRound.waveDelays[waveIndex + 1])
             {
                 nextSpawn = 0f;
@@ -32,7 +32,7 @@ public class SpawnZombs : MonoBehaviour
                 currentPoint = m_spawnPoints[Random.Range(0, m_spawnPoints.Length)];
             }
         }
-        else if(waveIndex < spawningRound.waves.Length)
+        else if(waveIndex < spawningRound.waves.Length && zombiesFromWave < spawningRound.waves[waveIndex].spawningObjects.Length)
         {
             if(nextSpawn >= spawningRound.waves[waveIndex].spawnDelay)
             {
@@ -57,6 +57,7 @@ public class SpawnZombs : MonoBehaviour
 
     void SpawnNewZombie() {
         GameObject zombieObject = Instantiate(spawningRound.waves[waveIndex].spawningObjects[zombiesFromWave], currentPoint.position, Quaternion.identity);
+        zombieObject.GetComponent<Pathfinding.AIDestinationSetter>().target = Data.freezerTransform;
         Data.spawnedZombies.Add(zombieObject);
     }
 }
