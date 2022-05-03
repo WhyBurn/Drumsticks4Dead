@@ -4,28 +4,59 @@ using UnityEngine;
 
 public class SpawnZombs : MonoBehaviour
 {
-    public GameObject m_zombie;
+    //public GameObject m_zombie;
+    public SpawningRound spawningRound;
     public Transform[] m_spawnPoints;
+    
     private float nextSpawn = 0f;
+    private Transform currentPoint;
+    private int waveIndex;
+    private int zombiesFromWave;
 
     // Start is called before the first frame update
     void Start()
     {
-        Data.doneSpawning = false;
+        Reset();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(nextSpawn <= Time.time) {
-            nextSpawn = Time.time + 10f;
-            SpawnNewZombie();
+        nextSpawn += Time.deltaTime;
+        if(waveIndex < 0 || (waveIndex < spawningRound.waves.Length && zombiesFromWave >= spawningRound.waves[waveIndex].spawningObjects.Length)) {
+            if(nextSpawn >= spawningRound.waveDelays[waveIndex + 1])
+            {
+                nextSpawn = 0f;
+                zombiesFromWave = 0;
+                ++waveIndex;
+                currentPoint = m_spawnPoints[Random.Range(0, m_spawnPoints.Length)];
+            }
+        }
+        else if(waveIndex < spawningRound.waves.Length)
+        {
+            if(nextSpawn >= spawningRound.waves[waveIndex].spawnDelay)
+            {
+                nextSpawn -= spawningRound.waves[waveIndex].spawnDelay;
+                SpawnNewZombie();
+                ++zombiesFromWave;
+            }
+        }
+        else
+        {
+            Data.doneSpawning = true;
         }
     }
 
+    public void Reset()
+    {
+        waveIndex = -1;
+        Data.doneSpawning = false;
+        zombiesFromWave = 0;
+        currentPoint = null;
+    }
+
     void SpawnNewZombie() {
-        int randomSpot = Random.Range(0, m_spawnPoints.Length);
-        GameObject zombieObject = Instantiate(m_zombie, m_spawnPoints[randomSpot].transform.position, Quaternion.identity);
+        GameObject zombieObject = Instantiate(spawningRound.waves[waveIndex].spawningObjects[zombiesFromWave], currentPoint.position, Quaternion.identity);
         Data.spawnedZombies.Add(zombieObject);
     }
 }

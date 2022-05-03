@@ -12,10 +12,10 @@ public class FryerInteractable : Interactable
     private TextMesh timerText;
     private MeshRenderer timerMesh;
 
-    public AudioSource chickenSpeaker;
+    /*public AudioSource chickenSpeaker;
     public AudioSource fryerSpeaker;
     public AudioClip overcooked;
-    public AudioClip cooked;
+    public AudioClip cooked;*/
     public override void OnStart()
     {
         fryingItem = null;
@@ -31,7 +31,7 @@ public class FryerInteractable : Interactable
     {
         if(fryingItem != null)
         {
-            fryerSpeaker.mute = false;
+            //fryerSpeaker.mute = false;
             if (fryingItem.fryedVersion != null)
             {
                 timerText.text = ((int)(fryingItem.fryTime - fryTime) + 1).ToString();
@@ -57,7 +57,7 @@ public class FryerInteractable : Interactable
         else
         {
             timerText.text = "";
-            fryerSpeaker.mute = true;
+            //fryerSpeaker.mute = true;
         }
     }
 
