@@ -8,7 +8,7 @@ public class FreezerInteractable : Interactable
 
     public override void OnStart()
     {
-        Data.freezerTransform = transform;
+
     }
 
     public override void OnUpdate()

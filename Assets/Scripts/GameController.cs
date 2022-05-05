@@ -85,19 +85,20 @@ public class GameController : MonoBehaviour
 
     public void SetUp(int numPlayers)
     {
+        ClearObjects();
         Data.spawnedZombies = new List<GameObject>();
         Data.spawnedItems = new List<GameObject>();
         Data.deletedZombies = new List<GameObject>();
         Data.deletedItems = new List<GameObject>();
         Data.doneSpawning = false;
         Data.gameLost = false;
-        ClearObjects();
         players = new GameObject[numPlayers];
         for(int i = 0; i < numPlayers; ++i)
         {
             GameObject player = Instantiate(playerPrefab.gameObject);
             player.transform.position = playerSpawnLocations[i].transform.position;
             player.GetComponent<PlayerController>().playerNumber = i;
+            players[i] = player;
         }
     }
 
@@ -125,8 +126,8 @@ public class GameController : MonoBehaviour
             {
                 GameObject.Destroy(spawnedItems[i].gameObject);
             }
-            spawnedItems = new List<GameObject>();
         }
+        spawnedItems = new List<GameObject>();
     }
 
     private void ClearZombies()
@@ -137,8 +138,8 @@ public class GameController : MonoBehaviour
             {
                 GameObject.Destroy(spawnedZombies[i].gameObject);
             }
-            spawnedZombies = new List<GameObject>();
         }
+        spawnedZombies = new List<GameObject>();
     }
 
     public void WinGame()
