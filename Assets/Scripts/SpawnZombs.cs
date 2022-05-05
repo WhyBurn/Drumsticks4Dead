@@ -16,15 +16,16 @@ public class SpawnZombs : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Reset();
+        Data.spawnTime = spawningRound.CalculateSpawnTime();
+        ResetSpawning();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Data.gameLost)
+        if (Data.reset)
         {
-            Reset();
+            ResetSpawning();
         }
         else
         {
@@ -55,7 +56,7 @@ public class SpawnZombs : MonoBehaviour
         }
     }
 
-    public void Reset()
+    public void ResetSpawning()
     {
         waveIndex = -1;
         Data.doneSpawning = false;

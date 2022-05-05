@@ -22,15 +22,15 @@ public class Freezer_Health : MonoBehaviour
     {
         Data.freezerTransform = transform;
         Data.gameLost = false;
-        Reset();
+        ResetHealth();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Data.gameLost)
+        if(Data.reset)
         {
-            Reset();
+            ResetHealth();
         }
         else if(damageTimer >= 0)
         {
@@ -79,7 +79,7 @@ public class Freezer_Health : MonoBehaviour
         }
     }
 
-    private void Reset()
+    private void ResetHealth()
     {
         currentHealth = maxHealth;
     }

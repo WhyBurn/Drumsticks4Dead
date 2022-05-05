@@ -50,6 +50,7 @@ public class GameController : MonoBehaviour
                 count = 0;
                 losePanel.SetActive(true);
                 losingGame = true;
+                Data.reset = true;
             }
         }
         else
@@ -92,6 +93,7 @@ public class GameController : MonoBehaviour
         Data.deletedItems = new List<GameObject>();
         Data.doneSpawning = false;
         Data.gameLost = false;
+        Data.reset = false;
         players = new GameObject[numPlayers];
         for(int i = 0; i < numPlayers; ++i)
         {
