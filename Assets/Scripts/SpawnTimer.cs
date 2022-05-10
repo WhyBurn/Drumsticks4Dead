@@ -33,6 +33,10 @@ public class SpawnTimer : MonoBehaviour
         {
             ResetTimer();
         }
+        if(Data.reset)
+        {
+            ResetTimer();
+        }
     }
 
     public void ResetTimer()
