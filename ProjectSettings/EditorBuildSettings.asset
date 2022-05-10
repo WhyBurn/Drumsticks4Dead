@@ -4,5 +4,20 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainGame.unity
+    guid: 80d66c5778862734d8e81c12b1e56859
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 102b129f375c8734f86d3de6076e398a
+  - enabled: 1
+    path: Assets/Scenes/RaySandbox.unity
+    guid: ca811101c9ef5724796b15005c4f53b8
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/TesterLevel.unity
+    guid: dafff54c7b6884f4ebe87e397921644e
   m_configObjects: {}
