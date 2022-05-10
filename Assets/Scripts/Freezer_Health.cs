@@ -20,14 +20,19 @@ public class Freezer_Health : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = maxHealth;
+        Data.freezerTransform = transform;
         Data.gameLost = false;
+        ResetHealth();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(damageTimer >= 0)
+        if(Data.reset)
+        {
+            ResetHealth();
+        }
+        else if(damageTimer >= 0)
         {
             damageTimer -= Time.deltaTime;
         }
@@ -72,5 +77,10 @@ public class Freezer_Health : MonoBehaviour
         {
             Data.gameLost = true;
         }
+    }
+
+    private void ResetHealth()
+    {
+        currentHealth = maxHealth;
     }
 }
