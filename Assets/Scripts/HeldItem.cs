@@ -7,7 +7,9 @@ public abstract class HeldItem : MonoBehaviour
     private bool held;
     public GameObject fryedVersion;
     public float fryTime;
+    public int itemId;
     private bool thrown;
+    public Dictionary<int, GameObject> combinationVersions;
 
     public bool Held
     {

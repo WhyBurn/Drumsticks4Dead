@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class Data
 {
+    public enum DamageType { Chicken = 0, Sandwich = 1, Spicy = 2 };
     public static bool doneSpawning;
     public static bool gameLost;
     public static bool reset;

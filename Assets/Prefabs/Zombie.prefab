@@ -252,3 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attachedCharacter: {fileID: -2916629703200506179}
+  damageMultipliers:
+  - 1
+  - 1
+  - 1
