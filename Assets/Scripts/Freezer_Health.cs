@@ -5,11 +5,11 @@ using UnityEngine;
 public class Freezer_Health : MonoBehaviour
 {
     [SerializeField]
-    private double currentHealth;
+    public int currentHealth;
     [SerializeField]
-    private double maxHealth = 100.0;
+    public int maxHealth = 100;
     [SerializeField]
-    private double damageDelt = 1.0;
+    private int damageDelt = 1;
     [SerializeField]
     private float damageTimer = 1.0f;
     List<GameObject> collidedObjects = new List<GameObject>();
@@ -17,9 +17,13 @@ public class Freezer_Health : MonoBehaviour
     private int zombiesAttacking = 0;
 
 
+    public HealthBar_Freezer healthBar;
+
     // Start is called before the first frame update
     void Start()
     {
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
         Data.freezerTransform = transform;
         Data.gameLost = false;
         ResetHealth();
@@ -66,8 +70,9 @@ public class Freezer_Health : MonoBehaviour
     void freezerTakeDamage()
     {
         damageTimer = 1.0f;
-        double damageTaking = (zombiesAttacking * damageDelt);
+        int damageTaking = (zombiesAttacking * damageDelt);
         currentHealth -= damageTaking;
+        healthBar.SetHealth(currentHealth);
         freezerDestroyed();
     }
 
