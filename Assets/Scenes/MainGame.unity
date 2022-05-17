@@ -873,6 +873,7 @@ MonoBehaviour:
   damageDelt: 1
   damageTimer: 1
   zombiesAttacking: 0
+  healthBar: {fileID: 0}
 --- !u!1 &1602381996
 GameObject:
   m_ObjectHideFlags: 0
