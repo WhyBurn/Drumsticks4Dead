@@ -6,6 +6,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public int damage;
+    public Data.DamageType damageType;
     private int sourceTeam;
 
     public int Team

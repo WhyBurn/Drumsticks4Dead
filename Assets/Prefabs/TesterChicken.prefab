@@ -32,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9200299570921511051}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.0380335, y: 5.875766, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -151,6 +151,10 @@ MonoBehaviour:
   fryedVersion: {fileID: 7909413318346378150, guid: 4fd336a8eb782ab4bb6834ead5ad573e,
     type: 3}
   fryTime: 5
+  itemId: 2
+  combinationObjects: 04000000
+  combinationResults:
+  - {fileID: 5584881248536364424, guid: 63a94038c8e7c864682132a04c85fb82, type: 3}
   throwSpeed: 150
   lastingTime: 10
 --- !u!114 &7590932770090361386
@@ -166,6 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 3
+  damageType: 0
 --- !u!114 &1019561665411213359
 MonoBehaviour:
   m_ObjectHideFlags: 0

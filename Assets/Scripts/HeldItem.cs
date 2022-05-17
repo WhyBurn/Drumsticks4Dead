@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,12 @@ public abstract class HeldItem : MonoBehaviour
     private bool held;
     public GameObject fryedVersion;
     public float fryTime;
+    public int itemId;
     private bool thrown;
+    public int[] combinationObjects;
+    public GameObject[] combinationResults;
+
+    private Dictionary<int, GameObject> objectCombinations;
 
     public bool Held
     {
@@ -24,6 +30,7 @@ public abstract class HeldItem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        MakeCombinations();
         OnStart();
     }
 
@@ -33,7 +40,29 @@ public abstract class HeldItem : MonoBehaviour
         
     }
 
+    private void MakeCombinations()
+    {
+        objectCombinations = new Dictionary<int, GameObject>();
+        for (int i = 0; i < Mathf.Min(combinationObjects.Length, combinationResults.Length); ++i)
+        {
+            objectCombinations.Add(combinationObjects[i], combinationResults[i]);
+        }
+    }
+
     public abstract void OnStart();
 
     public abstract HeldItem Throw();
+
+    public GameObject GetCombinationObject(int objId)
+    {
+        if(objectCombinations == null)
+        {
+            MakeCombinations();
+        }
+        if(objectCombinations.TryGetValue(objId, out GameObject result))
+        {
+            return (result);
+        }
+        return (null);
+    }
 }

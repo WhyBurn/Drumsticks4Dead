@@ -75,7 +75,7 @@ public class FryerInteractable : Interactable
         }
         else
         {
-            if(controller.Held == null)
+            if(controller.Held == null || controller.Held.GetCombinationObject(fryingItem.itemId) != null)
             {
                 controller.GrabItem(fryingItem);
                 fryingItem = null;

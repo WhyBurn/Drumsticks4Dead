@@ -6,6 +6,7 @@ using UnityEngine;
 public class HurtBox : MonoBehaviour
 {
     public CharacterController attachedCharacter;
+    public float[] damageMultipliers;
 
 
     // Start is called before the first frame update
@@ -28,7 +29,7 @@ public class HurtBox : MonoBehaviour
             HeldItem item = projectile.gameObject.GetComponent<HeldItem>();
             if ((item == null || item.Thrown) && projectile.Team != attachedCharacter.team)
             {
-                attachedCharacter.TakeDamage(projectile.damage);
+                attachedCharacter.TakeDamage(Mathf.CeilToInt(projectile.damage * damageMultipliers[(int)projectile.damageType]));
                 Destroy(projectile.gameObject);
             }
         }

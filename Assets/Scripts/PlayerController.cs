@@ -97,6 +97,18 @@ public class PlayerController : CharacterController
             heldItem = item;
             heldItem.Held = true;
         }
+        else
+        {
+            GameObject combo = item.GetCombinationObject(heldItem.itemId);
+            if(combo != null)
+            {
+                Data.deletedItems.Add(heldItem.gameObject);
+                Data.deletedItems.Add(item.gameObject);
+                heldItem = Instantiate(combo).GetComponent<HeldItem>();
+                heldItem.Held = true;
+                Data.spawnedItems.Add(heldItem.gameObject);
+            }
+        }
     }
 
     //Creates a new object based on the prefab for and holds it.
@@ -109,6 +121,20 @@ public class PlayerController : CharacterController
                 heldItem = Instantiate(itemPrefab).GetComponent<HeldItem>();
                 heldItem.Held = true;
                 Data.spawnedItems.Add(heldItem.gameObject);
+            }
+        }
+        else
+        {
+            if (itemPrefab.GetComponent<HeldItem>() != null)
+            {
+                GameObject combo = itemPrefab.GetComponent<HeldItem>().GetCombinationObject(heldItem.itemId);
+                if (combo != null)
+                {
+                    Data.deletedItems.Add(heldItem.gameObject);
+                    heldItem = Instantiate(combo).GetComponent<HeldItem>();
+                    heldItem.Held = true;
+                    Data.spawnedItems.Add(heldItem.gameObject);
+                }
             }
         }
     }
