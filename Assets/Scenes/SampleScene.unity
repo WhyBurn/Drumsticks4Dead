@@ -203,8 +203,10 @@ GameObject:
   m_Component:
   - component: {fileID: 58671679}
   - component: {fileID: 58671678}
+  - component: {fileID: 58671680}
+  - component: {fileID: 58671681}
   m_Layer: 0
-  m_Name: Money
+  m_Name: MoneyBills
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -269,13 +271,41 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58671677}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 36.74589, y: -10.744998, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 13, y: -13, z: 1}
+  m_LocalScale: {x: 15, y: 6, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &58671680
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58671677}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1
+--- !u!114 &58671681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58671677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4678f606661e448a93b9b61718cc747, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &72786772
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,7 +405,7 @@ GameObject:
   - component: {fileID: 75626038}
   m_Layer: 6
   m_Name: TestPlayer2
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -717,11 +747,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9b5848fe740b4b74b96d015ec079109, type: 3}
+  m_Script: {fileID: 11500000, guid: c6ee4142946f6448f80aeb287f80914e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 10
-  moneyDisplay: {fileID: 586906005}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -1188,7 +1216,7 @@ GameObject:
   - component: {fileID: 2052292482}
   m_Layer: 6
   m_Name: TestPlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
