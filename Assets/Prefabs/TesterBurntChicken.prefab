@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fryedVersion: {fileID: 0}
   fryTime: 0
+  itemId: 3
   throwSpeed: 150
   lastingTime: 10
 --- !u!114 &8878159564968079623
@@ -165,6 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
+  damageType: 0
 --- !u!114 &-1846387992387841254
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -151,6 +151,7 @@ MonoBehaviour:
   fryedVersion: {fileID: 9200299570921511051, guid: 3b21e948c7a3a6f4bbe36b93cc553716,
     type: 3}
   fryTime: 3
+  itemId: 1
   throwSpeed: 150
   lastingTime: 10
 --- !u!114 &6653234988613776989
@@ -166,6 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
+  damageType: 0
 --- !u!114 &5423874883559447444
 MonoBehaviour:
   m_ObjectHideFlags: 0
