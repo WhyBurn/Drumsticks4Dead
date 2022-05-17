@@ -9,6 +9,7 @@ public class Zombie_Movement : CharacterController
     [SerializeField] private GameObject TestFreezer;
 
     public Transform target;
+    public GameObject money;
 
     // Start is called before the first frame update
     public override void OnStart()
