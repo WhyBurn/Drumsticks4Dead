@@ -238,7 +238,7 @@ MonoBehaviour:
   maxHealth: 5
   team: 0
   playerNumber: 0
-  interactDistance: 12
+  interactDistance: 20
   interactArc: 100
   projectileLoc: {fileID: 5648255289750749139}
 --- !u!114 &5648255290077936043
