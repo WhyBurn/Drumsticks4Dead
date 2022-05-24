@@ -227,6 +227,7 @@ MonoBehaviour:
   maxAcceleration: 0
   maxHealth: 3
   team: 1
+  damage: 0.9
 --- !u!114 &4100920466193536743
 MonoBehaviour:
   m_ObjectHideFlags: 0
