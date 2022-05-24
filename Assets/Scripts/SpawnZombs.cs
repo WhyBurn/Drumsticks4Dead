@@ -66,7 +66,7 @@ public class SpawnZombs : MonoBehaviour
     }
 
     void SpawnNewZombie() {
-        GameObject zombieObject = Instantiate(spawningRound.waves[waveIndex].spawningObjects[zombiesFromWave], currentPoint.position, Quaternion.identity);
+        GameObject zombieObject = Instantiate(spawningRound.waves[waveIndex].spawningObjects[zombiesFromWave].GetSpawn(), currentPoint.position, Quaternion.identity);
         zombieObject.GetComponent<Pathfinding.AIDestinationSetter>().target = Data.freezerTransform;
         Data.spawnedZombies.Add(zombieObject);
     }
