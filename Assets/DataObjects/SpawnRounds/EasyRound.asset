@@ -12,5 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21158a1de719156478a96d8d1af5c956, type: 3}
   m_Name: EasyRound
   m_EditorClassIdentifier: 
-  waves: []
-  waveDelays: []
+  waves:
+  - {fileID: 11400000, guid: 5404a974b402a4c489979775442669c8, type: 2}
+  - {fileID: 11400000, guid: b904bd0e772631644baea471f0cec6aa, type: 2}
+  - {fileID: 11400000, guid: f2cc9672408e26d439885d534f4a49bf, type: 2}
+  - {fileID: 11400000, guid: b904bd0e772631644baea471f0cec6aa, type: 2}
+  - {fileID: 11400000, guid: 5404a974b402a4c489979775442669c8, type: 2}
+  - {fileID: 11400000, guid: fd7b8a8bdcc77734fb3fe1c40a8d620f, type: 2}
+  - {fileID: 11400000, guid: 5404a974b402a4c489979775442669c8, type: 2}
+  - {fileID: 11400000, guid: b904bd0e772631644baea471f0cec6aa, type: 2}
+  - {fileID: 11400000, guid: 5404a974b402a4c489979775442669c8, type: 2}
+  - {fileID: 11400000, guid: fd7b8a8bdcc77734fb3fe1c40a8d620f, type: 2}
+  waveDelays:
+  - 30
+  - 20
+  - 18
+  - 15
+  - 15
+  - 30
+  - 25
+  - 15
+  - 15
+  - 10
