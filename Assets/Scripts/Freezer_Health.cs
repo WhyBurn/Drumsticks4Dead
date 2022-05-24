@@ -40,7 +40,7 @@ public class Freezer_Health : MonoBehaviour
         else if(damageTimer <= 0)
         {
             damageTimer = 1f;
-            var nearby = Physics2D.OverlapCircleAll(transform.position, 15);
+            var nearby = Physics2D.OverlapCircleAll(transform.position, 12);
             float damage = 0f;
             foreach(var near in nearby)
             {
@@ -50,23 +50,11 @@ public class Freezer_Health : MonoBehaviour
                 }
             }
             currentHealth -= damage;
-        }
-    }
-
-    void freezerTakeDamage()
-    {
-        damageTimer = 1.0f;
-        int damageTaking = (zombiesAttacking * damageDelt);
-        currentHealth -= damageTaking;
-        healthBar.SetHealth(currentHealth);
-        freezerDestroyed();
-    }
-
-    void freezerDestroyed()
-    {
-        if (currentHealth < 1)
-        {
-            Data.gameLost = true;
+            healthBar.SetHealth(currentHealth);
+            if(currentHealth <= 0)
+            {
+                Data.gameLost = true;
+            }
         }
     }
 
