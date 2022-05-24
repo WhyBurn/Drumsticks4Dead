@@ -152,9 +152,10 @@ MonoBehaviour:
     type: 3}
   fryTime: 5
   itemId: 2
-  combinationObjects: 04000000
+  combinationObjects: 0400000008000000
   combinationResults:
   - {fileID: 5584881248536364424, guid: 63a94038c8e7c864682132a04c85fb82, type: 3}
+  - {fileID: 1806396678503001902, guid: 3c6c90bd3d8c42441a9480263286e8cb, type: 3}
   throwSpeed: 150
   lastingTime: 10
 --- !u!114 &7590932770090361386

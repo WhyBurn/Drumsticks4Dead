@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cabcae46c89e21e46b12a7ae313c24e4, type: 3}
   m_Name: Basic2TierOne
   m_EditorClassIdentifier: 
-  spawningObjects: []
-  spawnDelay: 0
+  spawningObjects:
+  - {fileID: 11400000, guid: 3e5b70e42a157744b8844fcfc4601d46, type: 2}
+  - {fileID: 11400000, guid: ab228fc5afe2db7459448ce0666a5221, type: 2}
+  - {fileID: 11400000, guid: ab228fc5afe2db7459448ce0666a5221, type: 2}
+  spawnDelay: 3.5

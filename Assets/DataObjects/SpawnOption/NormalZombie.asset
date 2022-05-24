@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca4d6f4c5577f1c419420f017dd8f145, type: 3}
   m_Name: NormalZombie
   m_EditorClassIdentifier: 
-  possibleSpawns: []
+  possibleSpawns:
+  - {fileID: 6910839371883911495, guid: 3a2dadebe40844f038acaac2244ee05c, type: 3}

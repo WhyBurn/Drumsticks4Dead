@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca4d6f4c5577f1c419420f017dd8f145, type: 3}
   m_Name: TierOneZombie
   m_EditorClassIdentifier: 
-  possibleSpawns: []
+  possibleSpawns:
+  - {fileID: 266047725129659625, guid: 3436cff483812fa4d82d5095320affca, type: 3}
+  - {fileID: 1306595209862869004, guid: 840def64f2842c1458c1cbedd3e1298f, type: 3}
+  - {fileID: 1416585208662531072, guid: 3f3cdde6321619f4198a00f07f427558, type: 3}
+  - {fileID: 7768920421022188905, guid: 9868fdd00b4c5b1409477092ae12f2c7, type: 3}
