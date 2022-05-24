@@ -5,9 +5,9 @@ using UnityEngine;
 public class Freezer_Health : MonoBehaviour
 {
     [SerializeField]
-    public int currentHealth;
+    public float currentHealth;
     [SerializeField]
-    public int maxHealth = 100;
+    public float maxHealth = 100;
     [SerializeField]
     private int damageDelt = 1;
     [SerializeField]
@@ -32,38 +32,24 @@ public class Freezer_Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Data.reset)
+        damageTimer -= Time.deltaTime;
+        if (Data.reset)
         {
             ResetHealth();
         }
-        else if(damageTimer >= 0)
+        else if(damageTimer <= 0)
         {
-            damageTimer -= Time.deltaTime;
-        }
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Zombie"))
-        {
-            zombiesAttacking++;
-        }
-    }
-
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Zombie") && damageTimer <= 0)
-        {
-            freezerTakeDamage();
-
-        }
-    }
-
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Zombie"))
-        {
-            zombiesAttacking--;
+            damageTimer = 1f;
+            var nearby = Physics2D.OverlapCircleAll(transform.position, 15);
+            float damage = 0f;
+            foreach(var near in nearby)
+            {
+                if(near.CompareTag("Zombie"))
+                {
+                    damage += near.GetComponent<ZombieController>().damage;
+                }
+            }
+            currentHealth -= damage;
         }
     }
 
