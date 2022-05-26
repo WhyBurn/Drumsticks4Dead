@@ -14,7 +14,7 @@ public class SpawningRound : ScriptableObject
         for(int i = 0; i < waves.Length; ++i)
         {
             time += waveDelays[i];
-            time += waves[i].spawnDelay * (waves[i].spawningObjects.Length - 1);
+            time += waves[i].spawnDelay * (waves[i].spawningObjects.Length);
         }
         return (time);
     }
