@@ -15,6 +15,9 @@ public class Freezer_Health : MonoBehaviour
     List<GameObject> collidedObjects = new List<GameObject>();
     [SerializeField]
     private int zombiesAttacking = 0;
+    private int music = 1;
+    [SerializeField] private AudioSource calmMusic;
+    [SerializeField] private AudioSource panikMusic;
 
 
     public HealthBar_Freezer healthBar;
@@ -27,6 +30,8 @@ public class Freezer_Health : MonoBehaviour
         Data.freezerTransform = transform;
         Data.gameLost = false;
         ResetHealth();
+        calmMusic.loop = true;
+        calmMusic.Play();
     }
 
     // Update is called once per frame
@@ -53,9 +58,23 @@ public class Freezer_Health : MonoBehaviour
             healthBar.SetHealth(currentHealth);
             if(currentHealth <= 0)
             {
+                panikMusic.Stop();
                 Data.gameLost = true;
             }
         }
+
+        if((music == 1) && (currentHealth < 34))
+        {
+            music++;
+            LowHealthMusic();
+        }
+    }
+
+    private void LowHealthMusic()
+    {
+        calmMusic.Stop();
+        panikMusic.Play();
+        panikMusic.loop = true;
     }
 
     private void ResetHealth()
