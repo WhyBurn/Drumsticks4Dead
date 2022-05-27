@@ -13,6 +13,14 @@ public class SpawnZombs : MonoBehaviour
     private int waveIndex;
     private int zombiesFromWave;
 
+    //Zombie Spawn SFX
+    [SerializeField] private AudioSource zombieSpawnSFX_1;
+    [SerializeField] private AudioSource zombieSpawnSFX_2;
+    [SerializeField] private AudioSource zombieSpawnSFX_3;
+    [SerializeField] private AudioSource zombieSpawnSFX_4;
+    [SerializeField] private AudioSource zombieSpawnSFX_5;
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -66,8 +74,34 @@ public class SpawnZombs : MonoBehaviour
     }
 
     void SpawnNewZombie() {
+        int zSFW = Random.Range(0, 5);
         GameObject zombieObject = Instantiate(spawningRound.waves[waveIndex].spawningObjects[zombiesFromWave].GetSpawn(), currentPoint.position, Quaternion.identity);
         zombieObject.GetComponent<Pathfinding.AIDestinationSetter>().target = Data.freezerTransform;
         Data.spawnedZombies.Add(zombieObject);
+        NewZombieSFW(zSFW);
+    }
+
+    void NewZombieSFW(int zSFW)
+    {
+        if (zSFW == 0)
+        {
+            zombieSpawnSFX_1.Play();
+        }
+        else if (zSFW == 0)
+        {
+            zombieSpawnSFX_2.Play();
+        }
+        else if (zSFW == 0)
+        {
+            zombieSpawnSFX_3.Play();
+        }
+        else if (zSFW == 0)
+        {
+            zombieSpawnSFX_4.Play();
+        }
+        else
+        {
+            zombieSpawnSFX_5.Play();
+        }
     }
 }

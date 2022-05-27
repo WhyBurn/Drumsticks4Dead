@@ -18,6 +18,7 @@ public class Freezer_Health : MonoBehaviour
     private int music = 1;
     [SerializeField] private AudioSource calmMusic;
     [SerializeField] private AudioSource panikMusic;
+    [SerializeField] private AudioSource zombieTalk;
 
 
     public HealthBar_Freezer healthBar;
@@ -61,6 +62,18 @@ public class Freezer_Health : MonoBehaviour
                 panikMusic.Stop();
                 Data.gameLost = true;
             }
+
+            if (damage > 0 && zombieTalk.loop == false)
+            {
+                zombieTalk.loop = true;
+                zombieTalk.Play();
+            }
+            else
+            {
+                zombieTalk.loop = false;
+                zombieTalk.Stop();
+            }
+
         }
 
         if((music == 1) && (currentHealth < 34))
@@ -68,6 +81,8 @@ public class Freezer_Health : MonoBehaviour
             music++;
             LowHealthMusic();
         }
+
+
     }
 
     private void LowHealthMusic()
