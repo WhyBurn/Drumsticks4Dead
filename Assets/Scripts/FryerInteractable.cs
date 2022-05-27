@@ -16,6 +16,8 @@ public class FryerInteractable : Interactable
     public AudioSource fryerSpeaker;
     public AudioClip overcooked;
     public AudioClip cooked;*/
+
+    [SerializeField] private AudioSource cookingSFX;
     public override void OnStart()
     {
         fryingItem = null;
@@ -32,8 +34,15 @@ public class FryerInteractable : Interactable
         if(fryingItem != null)
         {
             //fryerSpeaker.mute = false;
+
             if (fryingItem.fryedVersion != null)
             {
+                if (cookingSFX.loop == false)
+                {
+                    cookingSFX.Play();
+                    cookingSFX.loop = true;
+                }
+               
                 timerText.text = ((int)(fryingItem.fryTime - fryTime) + 1).ToString();
                 fryTime += Time.deltaTime;
                 if (fryTime >= fryingItem.fryTime)
@@ -47,6 +56,8 @@ public class FryerInteractable : Interactable
             }
             else
             {
+                cookingSFX.Stop();
+                cookingSFX.loop = false;
                 //If we're here, we know our chicken has been overcooked.
                 timerText.text = ">:(";
                 
@@ -56,6 +67,8 @@ public class FryerInteractable : Interactable
         }
         else
         {
+            cookingSFX.Stop();
+            cookingSFX.loop = false;
             timerText.text = "";
             //fryerSpeaker.mute = true;
         }

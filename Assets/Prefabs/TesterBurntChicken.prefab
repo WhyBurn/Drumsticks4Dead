@@ -151,6 +151,8 @@ MonoBehaviour:
   fryedVersion: {fileID: 0}
   fryTime: 0
   itemId: 3
+  combinationObjects: 
+  combinationResults: []
   throwSpeed: 150
   lastingTime: 10
 --- !u!114 &8878159564968079623
@@ -201,9 +203,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f92671adc83c82a47a27c90ce0224769, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5f37b3ebcd6384cc5ae73d824a011610, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.827
   m_Pitch: 1
   Loop: 0
   Mute: 0
