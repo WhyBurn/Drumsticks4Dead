@@ -87,15 +87,15 @@ public class SpawnZombs : MonoBehaviour
         {
             zombieSpawnSFX_1.Play();
         }
-        else if (zSFW == 0)
+        else if (zSFW == 1)
         {
             zombieSpawnSFX_2.Play();
         }
-        else if (zSFW == 0)
+        else if (zSFW == 2)
         {
             zombieSpawnSFX_3.Play();
         }
-        else if (zSFW == 0)
+        else if (zSFW == 3)
         {
             zombieSpawnSFX_4.Play();
         }
