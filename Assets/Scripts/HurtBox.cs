@@ -8,16 +8,13 @@ public class HurtBox : MonoBehaviour
     public CharacterController attachedCharacter;
     public float[] damageMultipliers;
 
-    [SerializeField] private AudioSource zombieHit1;
-    [SerializeField] private AudioSource zombieHit2;
-    [SerializeField] private AudioSource zombieHit3;
-    [SerializeField] private AudioSource zombieHit4;
+    ZombieDeathSFX zd;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        zd = gameObject.GetComponent<ZombieDeathSFX>();
     }
 
     // Update is called once per frame
@@ -34,31 +31,14 @@ public class HurtBox : MonoBehaviour
             HeldItem item = projectile.gameObject.GetComponent<HeldItem>();
             if ((item == null || item.Thrown) && projectile.Team != attachedCharacter.team)
             {
-                int zhitSFX = Random.Range(0, 4);
+
                 attachedCharacter.TakeDamage(Mathf.CeilToInt(projectile.damage * damageMultipliers[(int)projectile.damageType]));
                 Destroy(projectile.gameObject);
-                zombieHitSFX(zhitSFX);
-            }
-        }
-    }
 
-    void zombieHitSFX(int hitFX)
-    {
-        if(hitFX == 0)
-        {
-            zombieHit1.Play();
-        }
-        else if(hitFX == 1)
-        {
-            zombieHit2.Play();
-        }
-        else if (hitFX == 2)
-        {
-            zombieHit3.Play();
-        }
-        else
-        {
-            zombieHit4.Play();
+                //Calls zombie death SFX
+
+                zd.zombieDeath();
+            }
         }
     }
 }

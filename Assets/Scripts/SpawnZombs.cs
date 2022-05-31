@@ -83,25 +83,23 @@ public class SpawnZombs : MonoBehaviour
 
     void NewZombieSFW(int zSFW)
     {
-        if (zSFW == 0)
+        switch (zSFW)
         {
-            zombieSpawnSFX_1.Play();
-        }
-        else if (zSFW == 1)
-        {
-            zombieSpawnSFX_2.Play();
-        }
-        else if (zSFW == 2)
-        {
-            zombieSpawnSFX_3.Play();
-        }
-        else if (zSFW == 3)
-        {
-            zombieSpawnSFX_4.Play();
-        }
-        else
-        {
-            zombieSpawnSFX_5.Play();
+            case 0:
+                zombieSpawnSFX_1.Play();
+                break;
+            case 1:
+                zombieSpawnSFX_2.Play();
+                break;
+            case 2:
+                zombieSpawnSFX_3.Play();
+                break;
+            case 3:
+                zombieSpawnSFX_4.Play();
+                break;
+            default:
+                zombieSpawnSFX_5.Play();
+                break;
         }
     }
 }
