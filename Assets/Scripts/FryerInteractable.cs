@@ -29,7 +29,12 @@ public class FryerInteractable : Interactable
 
     public override void OnUpdate()
     {
-        if(fryingItem != null)
+        if(Data.reset || Data.gameLost)
+        {
+            fryingItem = null;
+            fryTime = 0;
+        }
+        else if(fryingItem != null)
         {
             //fryerSpeaker.mute = false;
             if (fryingItem.fryedVersion != null)
