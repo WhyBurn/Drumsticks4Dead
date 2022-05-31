@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 6794742933893807607}
   m_Layer: 7
   m_Name: TesterBurntChicken
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -151,6 +151,8 @@ MonoBehaviour:
   fryedVersion: {fileID: 0}
   fryTime: 0
   itemId: 3
+  combinationObjects: 
+  combinationResults: []
   throwSpeed: 150
   lastingTime: 10
 --- !u!114 &8878159564968079623
