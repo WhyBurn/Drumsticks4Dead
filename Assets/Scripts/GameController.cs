@@ -82,6 +82,10 @@ public class GameController : MonoBehaviour
                 WinGame();
             }
         }
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     public void SetUp(int numPlayers)
